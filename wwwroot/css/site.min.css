@@ -1,0 +1,28 @@
+body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;padding-right:15px}.carousel-caption p{font-size:20px;line-height:1.4}.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}
+
+.facthead {
+    width: 50%;
+    padding-left: 25px;
+}
+
+.createhead {
+    width: 15%;
+    text-align: right;
+}
+
+.linkhead {
+    width: 20%;
+    text-align: center;
+}
+
+.buttonhead {
+    width: 10%;
+    text-align: center;
+}
+
+.lasthead {
+    width: 10%;
+    text-align: right;
+    padding-right: 25px;
+}
+@media screen and (max-width:767px){.carousel-caption{display:none}}
