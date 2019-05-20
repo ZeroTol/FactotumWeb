@@ -37,6 +37,9 @@
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumWeb.pdb
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumWeb.Views.dll
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumWeb.Views.pdb
+/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumModels.dll
+/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumModels.pdb
+/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.csprojAssemblyReference.cache
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.csproj.CoreCompileInputs.cache
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.RazorAssemblyInfo.cache
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.RazorAssemblyInfo.cs
@@ -58,9 +61,6 @@
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.RazorTargetAssemblyInfo.cache
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.RazorTargetAssemblyInfo.cs
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.Views.pdb
+/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.csproj.CopyComplete
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.dll
 /Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.pdb
-/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.csproj.CopyComplete
-/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/obj/Debug/netcoreapp2.1/FactotumWeb.csprojAssemblyReference.cache
-/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumModels.dll
-/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/bin/Debug/netcoreapp2.1/FactotumModels.pdb

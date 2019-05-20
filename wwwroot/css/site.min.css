@@ -25,4 +25,37 @@ body{padding-top:50px;padding-bottom:20px}.body-content{padding-left:15px;paddin
     text-align: right;
     padding-right: 25px;
 }
+
+.Text-Value {
+    width: 64px;
+    height: 23px;
+    opacity: 0.5;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: center;
+    color: #0a1f44;
+    margin-right: 60px;
+}
+
+.line {
+    border-radius: 8px;
+    border: solid 1px #f1f2f4;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 3px 3px -1px rgba(10, 22, 70, 0.1), 0 0 1px 0 rgba(10, 22, 70, 0.06);
+    background-color: #ffffff;
+    padding-bottom: 10px;
+}
+
 @media screen and (max-width:767px){.carousel-caption{display:none}}
