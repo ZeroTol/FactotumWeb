@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{8E1900D7-B5FB-498C-B1F6-D9FE917E69BD}|Default">
   <MonoDevelop.Ide.ItemProperties.FactotumWeb PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Index.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Repository/MessageRepository.cs">
     <Files>
-      <File FileName="Controllers/HomeController.cs" Line="19" Column="1" />
+      <File FileName="Controllers/HomeController.cs" Line="18" Column="51" />
       <File FileName="Views/Home/Index.cshtml" Line="70" Column="1" />
-      <File FileName="Repository/MessageRepository.cs" Line="27" Column="1" />
+      <File FileName="Repository/MessageRepository.cs" Line="30" Column="48" />
       <File FileName="wwwroot/css/site.min.css" Line="50" Column="2" />
       <File FileName="Views/Shared/_Layout.cshtml" Line="53" Column="5" />
     </Files>
@@ -12,12 +12,19 @@
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="FactotumWeb" expanded="True">
-            <Node name="FactotumWeb" expanded="True" selected="True">
+            <Node name="FactotumModels" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="SdkDependencies" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="FactotumWeb" expanded="True">
               <Node name="Dependencies" expanded="True">
                 <Node name="PackageDependencies" expanded="True" />
               </Node>
               <Node name="Controllers" expanded="True" />
-              <Node name="Repository" expanded="True" />
+              <Node name="Repository" expanded="True">
+                <Node name="MessageRepository.cs" selected="True" />
+              </Node>
               <Node name="Views" expanded="True">
                 <Node name="Home" expanded="True" />
                 <Node name="Shared" expanded="True" />
@@ -36,7 +43,11 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/Repository/MessageRepository.cs" relfile="Repository/MessageRepository.cs" line="30" column="1" />
+      <Breakpoint file="/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/Repository/MessageRepository.cs" relfile="Repository/MessageRepository.cs" line="39" column="1" />
+      <Breakpoint file="/Users/ZeroTol/Documents/Work/Projects/Factotum/FactotumWeb/Repository/MessageRepository.cs" relfile="Repository/MessageRepository.cs" line="35" column="37" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
