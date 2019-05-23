@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Factotum/v16
+/.vs/FactotumWeb/config/applicationhost.config
+/.vs/FactotumWeb/DesignTimeBuild/.dtbcache
+/.vs/FactotumWeb/v16/Server/sqlite3/db.lock
+/.vs/FactotumWeb/v16/Server/sqlite3/storage.ide
+/.vs/FactotumWeb/v16/.suo
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
+/.vs/FactotumWeb/v16/Server/sqlite3
+/bin/Release/netcoreapp2.1
+/FactotumWeb.csproj.user
