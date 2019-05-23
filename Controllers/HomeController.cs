@@ -15,7 +15,8 @@ namespace FactotumWeb.Controllers
         {
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
-            var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
+            //var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
+            var model = await MessageRepository.Get("https://localhost:5001/api/message/");
             return View(model);
         }
 

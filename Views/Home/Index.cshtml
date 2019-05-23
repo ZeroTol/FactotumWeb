@@ -1,4 +1,4 @@
-﻿@model List<FactotumModels.MMessage>
+﻿@model List<FactotumModels.EMessage>
 
 @{
     ViewData["Title"] = "Factotum";
@@ -50,7 +50,7 @@
                     }
 
                     rate += msg.Rating.ToString();
-                    var msgdate = msg.Date.ToString("MM-dd-yyyy H:mm");
+                    var msgdate = msg.CreatedDate.ToString("MM-dd-yyyy H:mm");
 
                 <tr>
                     <td class="facthead" style="padding-left: 25px;">@msg.Title</td>
