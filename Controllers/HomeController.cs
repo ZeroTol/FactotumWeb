@@ -20,6 +20,14 @@ namespace FactotumWeb.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Fake()
+        {
+            string DomainName = HttpContext.Request.Path;
+            string Domain = HttpContext.Request.Host.Host;
+            var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/values");
+            return View(model);
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

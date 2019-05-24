@@ -12,5 +12,14 @@
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /.vs/FactotumWeb/v16/Server/sqlite3
-/bin/Release/netcoreapp2.1
+/bin/Release/netcoreapp2.1/*
+/bin/Debug/netcoreapp2.1/*
+/bin/Release/netcoreapp2.2/*
+/bin/Debug/netcoreapp2.2/*
 /FactotumWeb.csproj.user
+/obj/FactotumWeb.csproj.nuget.dgspec.json
+/obj/*
+/obj/Release/netcoreapp2.1/*
+/obj/Debug/netcoreapp2.1/*
+/obj/Release/netcoreapp2.2/*
+/obj/Debug/netcoreapp2.2/*
