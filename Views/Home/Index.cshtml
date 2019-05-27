@@ -440,4 +440,18 @@
     </div>
 </div>   <!-- /#wrapper -->
 
+<script>
+    // Mobile Create & Cancel posting Script
+    $("#create-post").click(function (e) {
+        e.preventDefault();
+        $(".posting").toggleClass("active");
+        $(".mb").toggleClass("deactive");
+    });
+
+    $("#cancel-post").click(function (e) {
+        e.preventDefault();
+        $(".posting").toggleClass("active");
+        $(".mb").toggleClass("deactive");
+    });
+</script>
 

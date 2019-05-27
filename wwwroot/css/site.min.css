@@ -449,6 +449,7 @@ body {
 .modal-header {
     border: none;
     background-color: none;
+    padding: 24px 33px 24px 0px;
 }
 
 .modal.left .modal-body .list-group .list-group-item,

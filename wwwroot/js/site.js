@@ -4,17 +4,19 @@
 // Write your JavaScript code.
 
 // Mobile Create & Cancel posting Script
-$("#create-post").click(function (e) {
-    e.preventDefault();
-    $(".posting").toggleClass("active");
-    $(".mb").toggleClass("deactive");
-});
+//$("#create-post").click(function (e) {
+//    debugger;
+//    e.preventDefault();
+//    $(".posting").toggleClass("active");
+//    $(".mb").toggleClass("deactive");
+//});
 
-$("#cancel-post").click(function (e) {
-    e.preventDefault();
-    $(".posting").toggleClass("active");
-    $(".mb").toggleClass("deactive");
-});
+//$("#cancel-post").click(function (e) {
+//    debugger;
+//    e.preventDefault();
+//    $(".posting").toggleClass("active");
+//    $(".mb").toggleClass("deactive");
+//});
 
 
 // JavaScript object for dashboard handle
@@ -60,6 +62,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     init = function () {
         //alertMeBaby();
         assignEventsToControls();
+
     }();
 }();
 
