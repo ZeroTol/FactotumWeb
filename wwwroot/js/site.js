@@ -3,20 +3,7 @@
 
 // Write your JavaScript code.
 
-// Mobile Create & Cancel posting Script
-//$("#create-post").click(function (e) {
-//    debugger;
-//    e.preventDefault();
-//    $(".posting").toggleClass("active");
-//    $(".mb").toggleClass("deactive");
-//});
 
-//$("#cancel-post").click(function (e) {
-//    debugger;
-//    e.preventDefault();
-//    $(".posting").toggleClass("active");
-//    $(".mb").toggleClass("deactive");
-//});
 
 
 // JavaScript object for dashboard handle
@@ -56,6 +43,19 @@ fjs.boardManager.prepareMainDashboard = function () {
         // assign action to all dislike buttons
         $(".dislikeAction").click(function () {
             iDislikeIt(this);
+        });
+
+        //Mobile Create & Cancel posting Script
+        $("#create-post").click(function (e) {
+            e.preventDefault();
+            $(".posting").toggleClass("active");
+            $(".mb").toggleClass("deactive");
+        });
+
+        $("#cancel-post").click(function (e) {
+            e.preventDefault();
+            $(".posting").toggleClass("active");
+            $(".mb").toggleClass("deactive");
         });
     };
 
