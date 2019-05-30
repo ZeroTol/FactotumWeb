@@ -47,5 +47,36 @@ namespace FactotumWeb.Repository
                 }
             }
         }
+
+        public static async Task<List<MDashBoardMessage>> GetDashBoardMessages(string baseURL)
+        {
+
+            using (var client = new HttpClient())
+            {
+                //client.DefaultRequestHeaders.Authorization
+                //       = new AuthenticationHeaderValue("Bearer", SecurityHelper.Instance.SecurityKey);
+                try
+                {
+                    var url = new Uri(baseURL);
+                    client.BaseAddress = url;
+                    var res = await client.GetAsync("");
+                    var str = await res.Content.ReadAsStringAsync();
+                    if ((str != null) && (str != string.Empty))
+                    {
+                        var msgs = JsonConvert.DeserializeObject<List<MDashBoardMessage>>(str);
+                        return msgs;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }

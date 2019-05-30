@@ -13,12 +13,13 @@ namespace FactotumWeb.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            //string DomainName = HttpContext.Request.Path;
-            //string Domain = HttpContext.Request.Host.Host;
-            ////var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
-            //var model = await MessageRepository.Get("https://localhost:5001/api/message/");
-            //return View(model);
-            return View();
+            string DomainName = HttpContext.Request.Path;
+            string Domain = HttpContext.Request.Host.Host;
+            //var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
+            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboardmessages");
+            var model = await MessageRepository.GetDashBoardMessages("http://factotumapi.azurewebsites.net/api/message/dashboardmessages");
+            return View(model);
+            //return View();
         }
 
         public async Task<IActionResult> Fake()
