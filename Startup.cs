@@ -33,6 +33,15 @@ namespace FactotumWeb
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins(
+                    "https://localhost:44347", 
+                    "https://factotum.azurewebsites.net",
+                    "http://factotum.azurewebsites.net"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +67,8 @@ namespace FactotumWeb
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCors(options => options.AllowAnyOrigin());
         }
     }
 }

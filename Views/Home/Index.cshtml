@@ -1,4 +1,4 @@
-﻿@model List<FactotumModels.MDashBoardMessage>
+﻿@model List<FactotumModels.MDashBoardFact>
 @*@{
     foreach (var msg in Model)
     {
@@ -64,7 +64,6 @@
                     </div>
                     <div class="col-sm-2 d-none d-md-block">
                         <div class="text-right">
-
                             <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal2" /><img src="~/images/Icon/Menu.svg">
                         </div>
                     </div>
@@ -106,18 +105,18 @@
                             }
                         }
                         @*
-        <a href="#" class="badge badge-primary">#primary</a>
-        <a href="#" class="badge badge-primary">#primary</a>
+                            <a href="#" class="badge badge-primary">#primary</a>
+                            <a href="#" class="badge badge-primary">#primary</a>
                         *@
                     </div>
                     <div class="col-md-1 col-6 order-md-2 order-4 post-time text-right">
-                        @((msg.FactCreateDate.Date.Day < 10) ?
-                        $"0{msg.FactCreateDate.Date.Day.ToString()}" :
-                        msg.FactCreateDate.Date.Day.ToString())
+                        @((msg.FactCreateDate?.Date.Day < 10) ?
+                        $"0{msg.FactCreateDate?.Date.Day.ToString()}" :
+                        msg.FactCreateDate?.Date.Day.ToString())
                         -
-                        @((msg.FactCreateDate.Date.Month < 10) ?
-                        $"0{msg.FactCreateDate.Date.Month.ToString()}" :
-                        msg.FactCreateDate.Date.Month.ToString())
+                        @((msg.FactCreateDate?.Date.Month < 10) ?
+                        $"0{msg.FactCreateDate?.Date.Month.ToString()}" :
+                        msg.FactCreateDate?.Date.Month.ToString())
                         @*05-04*@
                     </div>
                     <div class="col-md-2 col-6 order-md-3 order-3 post-link">
@@ -133,7 +132,7 @@
                                         <input type="radio" name="options" id="option1" autocomplete="off">
                                         -
                                     </label>
-                                    <label class="btn btn-rate">
+                                    <label class="btn btn-rate vote_plus" vote-id="@msg.FactId">
                                         <input type="radio" name="options" id="option2" autocomplete="off">
                                         +
                                     </label>
@@ -141,7 +140,7 @@
                             </div>
 
                             <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                                <div class="post_rating golden">
+                                <div class="@((msg.FactRating > 0) ? "post_rating golden " : "post_rating banned")">
                                     @(
                                         (msg.FactRating > 0) ?
                                         $"+{msg.FactRating.ToString()}" :
@@ -513,3 +512,33 @@
 
     </div>
 </div> <!-- /#wrapper -->
+
+<button id="test_button" type="button" aria-label="Close">Tralala</button>
+
+
+<script type="text/javascript">
+    $("#test_button").click(function () {
+        //alert("Hello!");
+
+        //$.ajax({
+        //    url: "https://localhost:44347/api/FakeApi/GetAllAuthor",
+        //    success: function (result) {
+        //        console.log(result);
+        //    }
+        //});
+
+        $.post("https://localhost:44347/api/FakeApi/AllAuthor", function (data) {
+            debugger;
+        });
+
+    });
+
+
+        //$.ajax({
+        //    url: "https://localhost:44348/api/Libraries/GetAllAuthor",
+        //    success: function (result) {
+        //        console.log(result);
+        //    }
+        //})
+
+</script>

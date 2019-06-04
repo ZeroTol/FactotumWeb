@@ -48,7 +48,7 @@ namespace FactotumWeb.Repository
             }
         }
 
-        public static async Task<List<MDashBoardMessage>> GetDashBoardMessages(string baseURL)
+        public static async Task<List<MDashBoardFact>> GetDashBoardMessages(string baseURL)
         {
 
             using (var client = new HttpClient())
@@ -63,7 +63,7 @@ namespace FactotumWeb.Repository
                     var str = await res.Content.ReadAsStringAsync();
                     if ((str != null) && (str != string.Empty))
                     {
-                        var msgs = JsonConvert.DeserializeObject<List<MDashBoardMessage>>(str);
+                        var msgs = JsonConvert.DeserializeObject<List<MDashBoardFact>>(str);
                         return msgs;
                     }
                     else

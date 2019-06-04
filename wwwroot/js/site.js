@@ -40,29 +40,52 @@ fjs.boardManager.prepareMainDashboard = function () {
             iLikeIt(this);
         });
 
-        // assign action to all dislike buttons
-        $(".dislikeAction").click(function () {
-            iDislikeIt(this);
-        });
+        $(".vote_plus").click(function (e) {
+            var vote_id = $(this).attr("vote-id");
 
-        //Mobile Create & Cancel posting Script
-        $("#create-post").click(function (e) {
-            e.preventDefault();
-            $(".posting").toggleClass("active");
-            $(".mb").toggleClass("deactive");
-        });
+            var fact_id = 777;
+            
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44347/api/FakeApi/AllAuthor",
+                data: JSON.stringify(fact_id),
+                success: function (data) {
+                    debugger;
+                },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+            //alert(`You like article number: ${vote_id}`);
+            //$.post("https://localhost:44347/api/FakeApi/AllAuthor",
+            //    JSON.stringify(fact_id)).done(
+            //        function (data) {
+            //            debugger;
+            //        });
+    });
 
-        $("#cancel-post").click(function (e) {
-            e.preventDefault();
-            $(".posting").toggleClass("active");
-            $(".mb").toggleClass("deactive");
-        });
-    };
+    // assign action to all dislike buttons
+    $(".dislikeAction").click(function () {
+        iDislikeIt(this);
+    });
 
-    init = function () {
-        //alertMeBaby();
-        assignEventsToControls();
+    //Mobile Create & Cancel posting Script
+    $("#create-post").click(function (e) {
+        e.preventDefault();
+        $(".posting").toggleClass("active");
+        $(".mb").toggleClass("deactive");
+    });
 
-    }();
+    $("#cancel-post").click(function (e) {
+        e.preventDefault();
+        $(".posting").toggleClass("active");
+        $(".mb").toggleClass("deactive");
+    });
+};
+
+init = function () {
+    //alertMeBaby();
+    assignEventsToControls();
+
+}();
 }();
 
