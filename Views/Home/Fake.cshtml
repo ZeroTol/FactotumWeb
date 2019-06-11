@@ -29,16 +29,16 @@
             <div class="container">
                 <div class="row posting">
                     <div class="col-lg-8 col-md-8">
-                        <textarea class="form-control form-control-md mob-form-extend" rows="1" type="text" placeholder="Type a fact that describes something just happened or being clued this week"></textarea>
+                        <textarea id="new_post_title" class="form-control form-control-md mob-form-extend" rows="1" type="text" placeholder="Type a fact that describes something just happened or being clued this week"></textarea>
                     </div>
                     <div class="col-md-2 col-12 padding-top-0-mob-10">
-                        <input class="form-control form-control-md" type="text" placeholder="Proof Link">
+                        <input id="new_post_link" class="form-control form-control-md" type="text" placeholder="Proof Link">
                     </div>
                     <div class="col-6 d-block d-md-none padding-top-0-mob-10">
                         <button type="button" class="btn btn-outline-danger btn-block" id="cancel-post">Cancel</button>
                     </div>
                     <div class="col-md-2 col-6 padding-top-0-mob-10">
-                        <button type="button" class="btn btn-primary btn-md btn-block">Post</button>
+                        <button id="new_post_submit_button" type="button" class="btn btn-primary btn-md btn-block">Post</button>
                     </div>
                 </div>
             </div>
@@ -136,11 +136,11 @@ msg.FactCreateDate?.Date.Month.ToString())
                             <div class="row">
                                 <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
                                     <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                                        <label class="btn btn-rate">
+                                        <label class="btn btn-rate vote_minus" data-vote-minus vote-id="@msg.FactId">
                                             <input type="radio" name="options" id="option1" autocomplete="off">
                                             -
                                         </label>
-                                        <label class="btn btn-rate vote_plus" vote-id="@msg.FactId">
+                                        <label class="btn btn-rate vote_plus" data-vote-plus vote-id="@msg.FactId">
                                             <input type="radio" name="options" id="option2" autocomplete="off">
                                             +
                                         </label>
@@ -521,13 +521,51 @@ msg.FactCreateDate?.Date.Month.ToString())
 
     </div>
 </div> <!-- /#wrapper -->
-
-<button id="test_button" type="button" aria-label="Close">Tralala</button>
-
+@*<button id="test_button" type="button" aria-label="Close">Tralala</button>*@
 
 <script type="text/javascript">
-    $("#test_button").click(function () {
-        alert("Hello!");
+
+    $('*[data-vote-plus]').click(function (e) {
+        debugger;
+        //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
+        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/LikeFact`;
+        
+        var fact_id = $(this).attr("vote-id");
+
+        $.ajax({
+            type: "POST",
+            url: requestUrl,
+            data: JSON.stringify(fact_id),
+            success: function (data) {
+                debugger;
+                alert("Thanks for your like ;-)");
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8"
+        });
+    });
+
+    $('*[data-vote-minus]').click(function (e) {
+        //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
+        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/DislikeFact`;
+
+        var fact_id = $(this).attr("vote-id");
+
+        $.ajax({
+            type: "POST",
+            url: requestUrl,
+            data: JSON.stringify(fact_id),
+            success: function (data) {
+                debugger;
+                alert("Thanks for your dislike ;-)");
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8"
+        });
+    });
+
+    $("#new_post_submit_button").click(function () {
+        //alert("Hello!");
 
         //public class MDashBoardFact
         //    {
@@ -541,14 +579,27 @@ msg.FactCreateDate?.Date.Month.ToString())
         //    }
 
         var fact = new Object();
-        fact.FactId = 1;
-        fact.FactTitle = "oOo";
-        fact.FactHashTags = "fHt";
-        fact.FactLink = "I am a link!";
-        fact.FactCreateDate = null;
-        fact.FactRating = 0;
-        fact.FactLastRateDate = null;
+        //fact.FactId = 666;
+        var fact_title = $("#new_post_title").val();
 
+        if ((fact_title == null) || (fact_title.length <= 0)) {
+            (alert("Please specify title!"));
+            return;
+        }
+
+        var fact_link = $("#new_post_link").val();
+        if ((fact_link == null) || (fact_link.length <= 0)) {
+            (alert("Please specify link!"));
+            return;
+        }
+
+        fact.FactTitle = fact_title;
+        fact.FactLink = fact_link;
+        //fact.FactHashTags = "#test";
+        //fact.FactCreateDate = null;
+        //fact.FactRating = 0;
+        //fact.FactLastRateDate = null;
+        debugger;
         //var vote_id = $(this).attr("vote-id");
         //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
         //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
@@ -560,6 +611,8 @@ msg.FactCreateDate?.Date.Month.ToString())
             data: JSON.stringify(fact),
             success: function (data) {
                 debugger;
+                $(".posting").toggleClass("active");
+                $(".mb").toggleClass("deactive");
             },
             dataType: "json",
             contentType: "application/json; charset=utf-8"
@@ -568,7 +621,6 @@ msg.FactCreateDate?.Date.Month.ToString())
     });
 
     var getAndRefreshDashBoardData = function (e) {
-        debugger;
         var dataOrder = $(this).attr("data-order-type");
         //var requestUrl = `https://localhost:5001/api/message/dashboard/${dataOrder}`;
         var requestUrl = `https://factotumapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
@@ -584,56 +636,64 @@ msg.FactCreateDate?.Date.Month.ToString())
                     temp_str = temp_str +
                         `&nbsp;<a href="#" class="badge badge-primary">#${item.trim()}</a>`;
                 }
-            })
-
+            });
             return temp_str;
         }
+
+        var prepareDisplayDate = function (date) {
+            var month_and_day = date.slice(5, 10);
+            var day_and_month = month_and_day.split("-")[1] + "-" + month_and_day.split("-")[0];
+            return day_and_month;
+        }
+
 
         $.get(requestUrl, function (data) {
             if ((data) && (data.length > 0)) {
                 var content = ``;
                 data.forEach(e => {
 
+
                     content = content + `
 <div class='row table-post'>
-    <div class='col-md-7 col-8 order-md-1 order-1'>
-        ${(e.factTitle)}
-        <br />
-        ${((e.factHashTags != null) && (e.factHashTags.length > 0))
+            <div class='col-md-7 col-8 order-md-1 order-1'>
+                ${(e.factTitle)}
+                <br />
+                ${((e.factHashTags != null) && (e.factHashTags.length > 0))
                             ? prepareHashTags(e.factHashTags)
                             : ``}
-    </div>
-    <div class='col-md-1 col-6 order-md-2 order-4 post-time text-right'>
-        ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? e.factCreateDate.slice(5, 10) : ""}
-    </div>
-    <div class='col-md-2 col-6 order-md-3 order-3 post-link'>
-        <a href='url'>
-            ${e.factLink}
-        </a>
-    </div>
-    <div class='col-md-2 col-4 order-md-4 order-2 text-right'>
-        <div class='row'>
-            <div class='col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right'>
-                <div class='  btn-group-toggle post_vote' data-toggle='buttons'>
-                    <label class='btn btn-rate'>
-                        <input type='radio' name='options' id='option1' autocomplete='off'>-
-                    </label>
-                    <label class='btn btn-rate  '>
-                        <input type='radio' name='options' id='option2' autocomplete='off'>+
-                    </label>
-                </div>
             </div>
-            <div class='col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right'>
-                <div class='post_rating golden'>
+            <div class='col-md-1 col-6 order-md-2 order-4 post-time text-right'>
+                ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ""
+                        }
+            </div>
+            <div class='col-md-2 col-6 order-md-3 order-3 post-link'>
+                <a href='url'>
+                    ${e.factLink}
+                </a>
+            </div>
+            <div class='col-md-2 col-4 order-md-4 order-2 text-right'>
+                <div class='row'>
+                    <div class='col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right'>
+                        <div class='  btn-group-toggle post_vote' data-toggle='buttons'>
+                            <label class='btn btn-rate'>
+                                <input type='radio' name='options' id='option1' autocomplete='off'>-
+                            </label>
+                            <label class='btn btn-rate  '>
+                                <input type='radio' name='options' id='option2' autocomplete='off'>+
+                            </label>
+                        </div>
+                    </div>
+                    <div class='col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right'>
+                        <div class='post_rating golden'>
 
-                    ${((e.factRating) && (parseInt(e.factRating)) > 0)
+                            ${((e.factRating) && (parseInt(e.factRating)) > 0)
                             ? `+` + e.factRating : e.factRating
                         }
-                <div class='golden-dot'></div>
+                        <div class='golden-dot'></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>
 `;
                     $("#content_container").html(content);

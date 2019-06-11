@@ -40,52 +40,46 @@ fjs.boardManager.prepareMainDashboard = function () {
             iLikeIt(this);
         });
 
-        $(".vote_plus").click(function (e) {
-            var vote_id = $(this).attr("vote-id");
+        //$(".vote_plus").click(function (e) {
+        //    var vote_id = $(this).attr("vote-id");
 
-            var fact_id = 777;
-            
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:44347/api/FakeApi/AllAuthor",
-                data: JSON.stringify(fact_id),
-                success: function (data) {
-                    debugger;
-                },
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
-            //alert(`You like article number: ${vote_id}`);
-            //$.post("https://localhost:44347/api/FakeApi/AllAuthor",
-            //    JSON.stringify(fact_id)).done(
-            //        function (data) {
-            //            debugger;
-            //        });
-    });
+        //    var fact_id = 777;
 
-    // assign action to all dislike buttons
-    $(".dislikeAction").click(function () {
-        iDislikeIt(this);
-    });
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "https://localhost:44347/api/FakeApi/AllAuthor",
+        //        data: JSON.stringify(fact_id),
+        //        success: function (data) {
+        //            debugger;
+        //        },
+        //        dataType: "json",
+        //        contentType: "application/json; charset=utf-8"
+        //    });
+        //});
 
-    //Mobile Create & Cancel posting Script
-    $("#create-post").click(function (e) {
-        e.preventDefault();
-        $(".posting").toggleClass("active");
-        $(".mb").toggleClass("deactive");
-    });
+        // assign action to all dislike buttons
+        $(".dislikeAction").click(function () {
+            iDislikeIt(this);
+        });
 
-    $("#cancel-post").click(function (e) {
-        e.preventDefault();
-        $(".posting").toggleClass("active");
-        $(".mb").toggleClass("deactive");
-    });
-};
+        //Mobile Create & Cancel posting Script
+        $("#create-post").click(function (e) {
+            e.preventDefault();
+            $(".posting").toggleClass("active");
+            $(".mb").toggleClass("deactive");
+        });
 
-init = function () {
-    //alertMeBaby();
-    assignEventsToControls();
+        $("#cancel-post").click(function (e) {
+            e.preventDefault();
+            $(".posting").toggleClass("active");
+            $(".mb").toggleClass("deactive");
+        });
+    };
 
-}();
+    init = function () {
+        //alertMeBaby();
+        assignEventsToControls();
+
+    }();
 }();
 

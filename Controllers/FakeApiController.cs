@@ -33,9 +33,24 @@ namespace FactotumWeb.Controllers
         }
 
         [HttpPost]
+        [Route("LikeFact")]
+        public IActionResult LikeFact([FromBody] string fact_id)
+        {
+            return Ok(fact_id);
+        }
+
+        [HttpPost]
+        [Route("DislikeFact")]
+        public IActionResult DislikeFact([FromBody] string fact_id)
+        {
+            return Ok(fact_id);
+        }
+
+        [HttpPost]
         [Route("AppendFact")]
         public IActionResult AppendFact([FromBody] MDashBoardFact fact)
         {
+            //Core.Instance.MessageService.GetDashBoardFacts(order).ToArray();
             return Ok(fact);
         }
     }
