@@ -35,6 +35,13 @@ namespace FactotumWeb.Controllers
             return View(model);
         }
 
+        public IActionResult Member()
+        {
+            ViewData["Message"] = "Membership related page.";
+
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

@@ -6,7 +6,7 @@
     <title>Factotum.live</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
@@ -34,7 +34,265 @@
 <body id="page-top">
 
     @RenderBody()
-    <hr />
+    <!-- Menu -->
+    <div class="modal right fade" id="menu_" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content disable-border-radius">
+                <div class="menu-header">
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="d-block d-md-none"><img src="~/img/logo.svg" alt="Home" class="logo_sm"></div>
+                <div class="modal-body">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action nofocus active" data-toggle="modal" data-target="#popup_posting_1">  Home</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Philosophy") + "'");"> Philosophy</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "DevBlog") + "'");">    Dev Blog</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Policy") + "'");">     Policy</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Member") + "'");">     Member</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_password_recovery">                        Password Recovery</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_register">                                 Create an account</button>
+                    </div>
+                    <div class="list-group pt-5">
+                        <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_login">Log in</button>
+                    </div>
+                    <div class="list-group pt-5">
+                        <button type="button" class="list-group-item list-group-item-action nofocus btn-sm">         Privacy & Policy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- Menu -->
+    <!-- LOGIN -->
+    <div class="modal fade" id="popup_login" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Log in
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pt-3" id="">
+                        <div class="alert alert-primary" role="alert">
+                            Continue with Facebook
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            Continue with Instagram
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            Continue with Google
+                        </div>
+                        <hr class="my-4">
+                        <div class="text-left pb-4"><strong>Or with old school approach?</strong></div>
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="small">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" class="small">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <small id="emailHelp" class="form-text text-muted"><a href="passrecovery_dialog" class="link">Forgot your password?</a></small>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label small" for="exampleCheck1">Remember me</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-12 vertical-bottom">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <div class="text-center py-4"><a href="register modal" class="link small">Don't have an account? Create one!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- DIALOG -->
+    <!-- LOGIN -->
+    <div class="modal fade" id="popup_password_recovery" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Password recovery
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pt-3" id="">
+                        <div class="collapse show" id="collapse_recovery">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="small">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="collapse text-center" id="collapse_recovery">
+                            Recovery instructions were sent to your email.<br>
+                            alexius.yushkov@gmail.com<br>
+                            <div class="small pt-3">Please wait 10 minutes before clicking resend.</div>
+                            <div class="pt-4 pb-2">
+                                <a href="resend?" class="link">Resend</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show" id="collapse_recovery">
+                    <div class="modal-footer">
+                        <div class="col-12 vertical-bottom">
+                            <button type="submit" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapse_recovery">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- DIALOG -->
+    <!-- REGISTER -->
+    <div class="modal fade" id="popup_register" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Create account
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pt-3" id="">
+                        <div class="collapse show" id="collapse_Register">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="small">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="small">Password</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="small">Password again</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password check">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="small">Username</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername" aria-describedby="emailHelp" placeholder="Your nickname">
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label small" for="exampleCheck1">I agree with <a href="terms & conditions" class="link">terms & conditions</a></label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="collapse text-center" id="collapse_Register">
+                            Confirmation email was sent to your email.<br>
+                            alexius.yushkov@gmail.com<br>
+                            <div class="small pt-3">Please wait 10 minutes before clicking resend.</div>
+                            <div class="pt-4 pb-2">
+                                <a href="resend?" class="link">Resend</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show" id="collapse_Register">
+                    <div class="modal-footer">
+                        <div class="col-12 vertical-bottom">
+                            <button type="submit" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapse_Register">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- DIALOG -->
+    <!-- DIALOG_post -->
+    <div class="modal fade" id="popup_posting_0" tabindex="-3" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Lets check everything
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="collapse show" id="collapsePostingSteps">
+
+                        <div class="card-body pb-5">
+
+                            <div class="p-1 pb-2"> NASA Awards Launch Range Operations Contract for Wallops Range Operations Contr</div>
+                            <div class="small">
+                                <a href="https://www.nasa.gov/press-release/nasa-awards-launch-range-operations-contract-for-wallops-flight-facility/">https://www.nasa.gov/press-release/nasa-awards-launch-range-operations-contract-for-wallops-flight-facility/</a>
+                            </div>
+                        </div>
+                        <div class="pb-2 small">Tags of associations (optional)</div>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="#something #absolutely #random">
+                    </div>
+
+                    <div class="collapse" id="collapsePostingSteps">
+                        <div class="card card-body">
+                            <div class="small pb-2">
+                                A good colour is like a good mood.
+                                <br>
+                                Tweak your tags by pasting your HEX code below.
+                            </div>
+                            <div><a href="#" class="badge badge-primary">#yourstyle</a> <a href="#" class="badge badge-primary">#yourstyle</a></div>
+
+                            <div class="row">
+                                <div class="col-sm-6 col-12 pt-4">
+                                    <label for="exampleInputEmail1" class="small">Background colour</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#0C66FF" disabled>
+                                </div>
+                                <div class="col-sm-6 col-12 pt-4">
+                                    <label for="exampleInputEmail1" class="small">Text colour</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#FFFFFF" disabled>
+                                </div>
+                            </div>
+                            <div class="pt-4 text-danger small">
+                                This functionality is available for members only.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="small text-muted">You cannot remove or edit your fact after posting it. No politics & no adult stricted content please!</div>
+                    <div class="col-4 vertical-bottom">
+                        <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- DIALOG_post -->
+    <!-- DIALOG_EXISTS ------------------------------------------------------------->
+    <div class="modal fade" id="popup_posting_1" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Fact is not unique
+                    <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="pb-4">We found same proof link in our Data Base</div>
+                    <div class="card card-body border-danger">
+                        <div class="pb-2 small text-muted">1 Aug</div>
+                        <div class="pb-2 p-1"> NASA Awards Launch Range Operations Contract for Wallops Range Operations Contr</div>
+                        <div class="pb-2 small">
+                            <a href="https://www.nasa.gov/press-release/nasa-awards-launch-range-operations-contract-for-wallops-flight-facility/">https://www.nasa.gov/press-release/nasa-awards-launch-range-operations-contract-for-wallops-flight-facility/</a>
+                        </div>
+                        <div class="text-right">+473 823</div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="small text-muted">All highlighted facts are stored in your browser cookies, as unique id-keys. Helps to track it visually.</div>
+                    <div class="col-4 vertical-bottom">
+                        <button type="button" class="btn btn-danger btn-md btn-block" data-toggle="" data-target="#collapsePostingSteps">Highlight</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- DIALOG_EXISTS ------------------------------------------------------------->
+
+    <div class="loader text-center"><div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div></div>
+
     <footer>
         <p>&copy; 2019 - Factotum.live</p>
     </footer>
