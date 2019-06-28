@@ -1,5 +1,5 @@
 ﻿@model List<FactotumModels.MDashBoardFact>
-
+@using System.Globalization;
 <!-- COOOKIES TOASTER -->
 <div class="toast" style="min-width: 100%;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
     <div class="toast-body">
@@ -39,10 +39,10 @@
         <div class="container">
             <div class="row posting">
                 <div class="col-lg-8 col-md-8">
-                    <textarea class="form-control form-control-md mob-form-extend" rows="1" type="text" placeholder="Type a fact that describes something just happened or being clued this week"></textarea>
+                    <textarea id="new_post_title" class="form-control form-control-md mob-form-extend" rows="1" type="text" placeholder="Type a fact that describes something just happened or being clued this week"></textarea>
                 </div>
                 <div class="col-md-2 col-12 pt-md-0 pt-2">
-                    <input class="form-control form-control-md" type="text" placeholder="Proof Link">
+                    <input id="new_post_link" class="form-control form-control-md" type="text" placeholder="Proof Link">
                 </div>
                 <div class="col-6 d-block d-md-none pt-md-0 pt-2">
                     <button type="button" class="btn btn-outline-danger btn-block" id="cancel-post">Cancel</button>
@@ -112,347 +112,84 @@
             <div class="col-2 d-none d-md-block">Proof</div>
             <div class="col-md-2 col text-right">Rating</div>
         </div>
+        <div id="content_container">
+            @foreach (var fact in Model)
+            {
+            <div class="row table-post">
+                <div class="col-md-7 col-8  order-md-1 order-1">
+                    @fact.FactTitle
+                    <br />
+                    @{
+                        if ((fact.FactHashTags != null) && (fact.FactHashTags.Length > 0))
+                        {
+                            var arr = fact.FactHashTags.Split("#");
 
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6 order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6 order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4 order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
+                            if (arr.Length > 0)
+                            {
+                                foreach (var has_tag in arr)
+                                {
+                                    if (has_tag.Length > 0)
+                                    {
+                        <a href="#" class="badge badge-primary">#@has_tag</a>
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate" data-vote-minus vote-id="1">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate" data-vote-plus vote-id="1">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
+
+                </div>
+                <div class="col-md-1 col-6 order-md-2 order-4 post-time text-right">
+                    @{
+
+                            DateTime? date = DateTime.Now;
+                            var monthName = fact.FactCreateDate?.Date.ToString("MMM");
+
+                    }
+                    @fact.FactCreateDate?.Date.Day.ToString() @monthName
+                </div>
+                <div class="col-md-2 col-6 order-md-3 order-3 post-link">
+                    <a href="https://@fact.FactLink" target="_blank">@fact.FactLink</a>
+                </div>
+                <div class="col-md-2 col-4 order-md-4 order-2 text-right">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
+
+                            <div class="btn-group-toggle post_vote" data-toggle="buttons">
+                                <label class="btn btn-rate" data-vote-minus vote-id="@fact.FactId">
+                                    <input type="radio" name="options" id="option1" autocomplete="off">-
+                                </label>
+                                <label class="btn btn-rate" data-vote-plus vote-id="@fact.FactId">
+                                    <input type="radio" name="options" id="option2" autocomplete="off">+
+                                </label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating golden">
-                            +5 239 122
-                            <div class="golden-dot"></div>
+                        <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
+                            @{
+                                        bool isBannedRating = fact.FactRating < 0 ;
+                                        bool isGoldenRating = fact.FactRating >= 900;
+                            }
+                            <div class="post_rating @(isGoldenRating  ? "golden" : "") @(isBannedRating  ? "banned" : "")">
+                                <span id="data-vote-rating-@fact.FactId">
+                                    @{
+                                        
+                                        var ratingForDisplay = String.Format("{0:### ### ### ###}", fact.FactRating);
+                                        ratingForDisplay = (fact.FactRating > 0 ) ? "+"+ratingForDisplay: fact.FactRating.ToString();
+                                    }
+
+                                    @ratingForDisplay
+
+                                </span>
+                                @if (isGoldenRating)  {
+                                <div class="golden-dot"></div>
+                                        }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="  btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating golden">
-                            +5 239 122
-                            <div class="golden-dot"></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating golden">
-                            +5 239 122
-                            <div class="golden-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-                <br>
-                <a href="#" class="badge badge-primary">#primary</a>
-                <a href="#" class="badge badge-primary">#primary</a>
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating golden">
-                            +239 122
-                            <div class="golden-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating golden">
-                            +39 122
-                            <div class="golden-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating">
-                            +9 122
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="row table-post you">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-            </div>
-            <div class="col-md-1 col-6      order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6      order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4      order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating">
-                            +1 122
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam, duis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-            </div>
-            <div class="col-md-1 col-6      order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6    order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating">
-                            +1 122
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-                <br>
-                <a href="#" class="badge badge-primary">#primary</a>
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating">
-                            +1 122
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-                <br>
-                <a href="#" class="badge badge-primary">#primary</a>
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating">
-                            +122
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row table-post">
-            <div class="col-md-7 col-8  order-md-1 order-1">
-                Ruis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.
-                <br>
-                <a href="#" class="badge badge-primary">#primary</a>
-                <a href="#" class="badge badge-primary">#primary</a>
-            </div>
-            <div class="col-md-1 col-6   order-md-2 order-4 post-time text-right">4 Aug</div>
-            <div class="col-md-2 col-6   order-md-3 order-3 post-link"> <a href="url">lipsum.com</a> </div>
-            <div class="col-md-2 col-4   order-md-4 order-2 text-right">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
-                        <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                            <label class="btn btn-rate">
-                                <input type="radio" name="options" id="option1" autocomplete="off">-
-                            </label>
-                            <label class="btn btn-rate  ">
-                                <input type="radio" name="options" id="option2" autocomplete="off">+
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                        <div class="post_rating banned">
-                            -122
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -473,5 +210,62 @@
         $(".posting").toggleClass("active");
         $(".mb").toggleClass("deactive");
     });
+
+    //$("#new_post_submit_button").click(function () {
+    //    debugger;
+    //    //alert("Hello!");
+
+    //    //public class MDashBoardFact
+    //    //    {
+    //    //        public int FactId { get; set; }
+    //    //        public String FactTitle { get; set; }
+    //    //        public String FactHashTags { get; set; }
+    //    //        public String FactLink { get; set; }
+    //    //        public DateTime? FactCreateDate { get; set; }
+    //    //        public int FactRating { get; set; }
+    //    //        public DateTime? FactLastRateDate { get; set; }
+    //    //    }
+
+    //    var fact = new Object();
+    //    //fact.FactId = 666;
+    //    var fact_title = $("#new_post_title").val();
+
+    //    if ((fact_title == null) || (fact_title.length <= 0)) {
+    //        (alert("Please specify title!"));
+    //        return;
+    //    }
+
+    //    var fact_link = $("#new_post_link").val();
+    //    if ((fact_link == null) || (fact_link.length <= 0)) {
+    //        (alert("Please specify link!"));
+    //        return;
+    //    }
+
+    //    fact.FactTitle = fact_title;
+    //    fact.FactLink = fact_link;
+    //    //fact.FactHashTags = "#test";
+    //    //fact.FactCreateDate = null;
+    //    //fact.FactRating = 0;
+    //    //fact.FactLastRateDate = null;
+    //    debugger;
+    //    //var vote_id = $(this).attr("vote-id");
+    //    //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
+    //    //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
+    //    var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: requestUrl,
+    //        data: JSON.stringify(fact),
+    //        success: function (data) {
+    //            debugger;
+    //            $(".posting").toggleClass("active");
+    //            $(".mb").toggleClass("deactive");
+    //        },
+    //        dataType: "json",
+    //        contentType: "application/json; charset=utf-8"
+    //    });
+
+    //});
 
 </script>

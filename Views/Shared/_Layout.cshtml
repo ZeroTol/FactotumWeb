@@ -221,32 +221,45 @@
                             </div>
                         </div>
                         <div class="pb-2 small">Tags of associations (optional)</div>
-                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="#something #absolutely #random">
+                        <input type="text" class="form-control" id="new_post_hashtags" placeholder="#something #absolutely #random">
+                        <div class="pb-2 small">
+                            <br />
+                            <button id="new_post_submit_button" type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps">Post</button>
+                        </div>
                     </div>
 
                     <div class="collapse" id="collapsePostingSteps">
                         <div class="card card-body">
                             <div class="small pb-2">
-                                A good colour is like a good mood.
+                                Thank you so much for new fact!
                                 <br>
-                                Tweak your tags by pasting your HEX code below.
-                            </div>
-                            <div><a href="#" class="badge badge-primary">#yourstyle</a> <a href="#" class="badge badge-primary">#yourstyle</a></div>
-
-                            <div class="row">
-                                <div class="col-sm-6 col-12 pt-4">
-                                    <label for="exampleInputEmail1" class="small">Background colour</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#0C66FF" disabled>
-                                </div>
-                                <div class="col-sm-6 col-12 pt-4">
-                                    <label for="exampleInputEmail1" class="small">Text colour</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#FFFFFF" disabled>
-                                </div>
-                            </div>
-                            <div class="pt-4 text-danger small">
-                                This functionality is available for members only.
+                                Fact will be checked and you will see this in list very soon!
+                                <br>
                             </div>
                         </div>
+
+                        @*<div class="card card-body">
+            <div class="small pb-2">
+                A good colour is like a good mood.
+                <br>
+                Tweak your tags by pasting your HEX code below.
+            </div>
+            <div><a href="#" class="badge badge-primary">#yourstyle</a> <a href="#" class="badge badge-primary">#yourstyle</a></div>
+
+            <div class="row">
+                <div class="col-sm-6 col-12 pt-4">
+                    <label for="exampleInputEmail1" class="small">Background colour</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#0C66FF" disabled>
+                </div>
+                <div class="col-sm-6 col-12 pt-4">
+                    <label for="exampleInputEmail1" class="small">Text colour</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#FFFFFF" disabled>
+                </div>
+            </div>
+            <div class="pt-4 text-danger small">
+                This functionality is available for members only.
+            </div>
+        </div>*@
                     </div>
 
                 </div>
@@ -254,7 +267,11 @@
                 <div class="modal-footer">
                     <div class="small text-muted">You cannot remove or edit your fact after posting it. No politics & no adult stricted content please!</div>
                     <div class="col-4 vertical-bottom">
-                        <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps">Post</button>
+                        <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps" data-dismiss="modal"  aria-label="Close">
+                            <span aria-hidden="true">
+                                Close
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -306,5 +323,71 @@
     <environment exclude="Development">
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
+    <script type="text/javascript">
+    $("#new_post_submit_button").click(function (e) {
+        debugger;
+
+
+        //public class MDashBoardFact
+        //    {
+        //        public int FactId { get; set; }
+        //        public String FactTitle { get; set; }
+        //        public String FactHashTags { get; set; }
+        //        public String FactLink { get; set; }
+        //        public DateTime? FactCreateDate { get; set; }
+        //        public int FactRating { get; set; }
+        //        public DateTime? FactLastRateDate { get; set; }
+        //    }
+
+        var fact = new Object();
+        var fact_title = $("#new_post_title").val();
+
+        if ((fact_title == null) || (fact_title.length <= 0)) {
+            e.preventDefault();
+            (alert("Please specify title!"));
+            return;
+        }
+
+        var fact_link = $("#new_post_link").val();
+        if ((fact_link == null) || (fact_link.length <= 0)) {
+            e.preventDefault();
+            (alert("Please specify link!"));
+            return;
+        }
+
+        var fact_hashTags = $("#new_post_hashtags").val();
+        if ((fact_hashTags != null) || (fact_hashTags.length <= 0)) {
+            fact.FactHashTags = fact_hashTags;
+        }
+
+
+        fact.FactTitle = fact_title;
+        fact.FactLink = fact_link;
+        //fact.FactHashTags = "#test";
+        //fact.FactCreateDate = null;
+        //fact.FactRating = 0;
+        //fact.FactLastRateDate = null;
+        debugger;
+        //var vote_id = $(this).attr("vote-id");
+        //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
+        //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
+        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
+
+        $.ajax({
+            type: "POST",
+            url: requestUrl,
+            data: JSON.stringify(fact),
+            success: function (data) {
+                debugger;
+                $(".posting").toggleClass("active");
+                $(".mb").toggleClass("deactive");
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8"
+        });
+
+    });
+    </script>
+
 </body>
 </html>

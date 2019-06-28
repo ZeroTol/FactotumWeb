@@ -15,10 +15,15 @@ namespace FactotumWeb.Controllers
         {
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
+
+            var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
+
+            return View(model);
+
             //var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
             //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboardmessages");
-            var model = await MessageRepository.GetDashBoardMessages("http://factotumapi.azurewebsites.net/api/message/dashboardmessages");
-            return View(model);
+            //var model = await MessageRepository.GetDashBoardMessages("http://factotumapi.azurewebsites.net/api/message/dashboardmessages");
+            //return View(model);
             //return View();
         }
 
@@ -31,7 +36,7 @@ namespace FactotumWeb.Controllers
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
             //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");
-            var model = await MessageRepository.GetDashBoardMessages("https://factotumapi.azurewebsites.net/api/message/dashboard/byrating");
+            var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
             return View(model);
         }
 

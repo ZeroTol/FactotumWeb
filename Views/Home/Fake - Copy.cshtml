@@ -35,7 +35,7 @@
                         <input id="new_post_link" class="form-control form-control-md" type="text" placeholder="Proof Link">
                     </div>
                     <div class="col-6 d-block d-md-none padding-top-0-mob-10">
-                        <button type="button" class="btn btn-outline-danger btn-block" id="cancel-post">Cancel</button>
+                        <button id="cancel-post" type="button" class="btn btn-outline-danger btn-block">Cancel</button>
                     </div>
                     <div class="col-md-2 col-6 padding-top-0-mob-10">
                         <button id="new_post_submit_button" type="button" class="btn btn-primary btn-md btn-block">Post</button>
@@ -528,7 +528,7 @@ msg.FactCreateDate?.Date.Month.ToString())
     $('*[data-vote-plus]').click(function (e) {
         debugger;
         //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
-        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/LikeFact`;
+        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/LikeFact`;
         
         var fact_id = $(this).attr("vote-id");
 
@@ -547,7 +547,7 @@ msg.FactCreateDate?.Date.Month.ToString())
 
     $('*[data-vote-minus]').click(function (e) {
         //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
-        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/DislikeFact`;
+        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/DislikeFact`;
 
         var fact_id = $(this).attr("vote-id");
 
@@ -603,7 +603,7 @@ msg.FactCreateDate?.Date.Month.ToString())
         //var vote_id = $(this).attr("vote-id");
         //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
         //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
-        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/AppendFact`;
+        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
 
         $.ajax({
             type: "POST",
@@ -623,7 +623,7 @@ msg.FactCreateDate?.Date.Month.ToString())
     var getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
         //var requestUrl = `https://localhost:5001/api/message/dashboard/${dataOrder}`;
-        var requestUrl = `https://factotumapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
+        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
 
         var prepareHashTags = function (hashTags) {
             var temp_str = ``;
