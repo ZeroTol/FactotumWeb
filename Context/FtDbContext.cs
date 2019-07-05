@@ -14,9 +14,10 @@ namespace FactotumWeb.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "./DataBase/Factotum.db" };
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "Factotum.db" };
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
+
 
             optionsBuilder.UseSqlite(connection);
         }
