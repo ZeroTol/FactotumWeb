@@ -32,7 +32,7 @@ namespace FactotumWeb.Controllers
 
 
             //https://localhost:44360/api/message/dashboard/byrating
-
+            ViewData["Message"] = "ABC.";
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
             //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");

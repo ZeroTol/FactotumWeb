@@ -345,9 +345,9 @@ fjs.boardManager.prepareMainDashboard = function () {
         //    });
         //}
 
-        $(document).ready(function () {
-            $('.toast').toast('show');
-        });
+        //$(document).ready(function () {
+        //    $('.toast').toast('show');
+        //});
 
     }();
 }();
