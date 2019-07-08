@@ -32,8 +32,24 @@
 </head>
 
 <body id="page-top">
+    <!-- COOOKIES TOASTER -->
+    <div class="toast fade hide" style="min-width: 100%;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-body">
+            <div class="row p-lg-0 p-3">
+                <div class="col-lg-11 pl-2 pb-1 vertical-center">
+                    By continuing using this service, you aree that we are storing some minor information in you browser cookies, that helps you to see your highlighted posts and makes whole service faster for you convinient use. Closing this dialog, you agree with our policy and ability to store cookies on your device.
+                    <br>
+                    <a href="Privacy & Policy">Privacy & Policy</a>
+                </div>
+                <div class="col-lg-1 text-right pb-1">
+                    <button id="factotumPrivacyAndPolicy" cname=".ftPaP" cvalue="123" type="button" class="ml-2 mb-1 close nofocus pt-1" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    @RenderBody()
     <!-- Menu -->
     <div class="modal right fade" id="menu_" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -239,27 +255,27 @@
                         </div>
 
                         @*<div class="card card-body">
-            <div class="small pb-2">
-                A good colour is like a good mood.
-                <br>
-                Tweak your tags by pasting your HEX code below.
-            </div>
-            <div><a href="#" class="badge badge-primary">#yourstyle</a> <a href="#" class="badge badge-primary">#yourstyle</a></div>
+                                <div class="small pb-2">
+                                    A good colour is like a good mood.
+                                    <br>
+                                    Tweak your tags by pasting your HEX code below.
+                                </div>
+                                <div><a href="#" class="badge badge-primary">#yourstyle</a> <a href="#" class="badge badge-primary">#yourstyle</a></div>
 
-            <div class="row">
-                <div class="col-sm-6 col-12 pt-4">
-                    <label for="exampleInputEmail1" class="small">Background colour</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#0C66FF" disabled>
-                </div>
-                <div class="col-sm-6 col-12 pt-4">
-                    <label for="exampleInputEmail1" class="small">Text colour</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#FFFFFF" disabled>
-                </div>
-            </div>
-            <div class="pt-4 text-danger small">
-                This functionality is available for members only.
-            </div>
-        </div>*@
+                                <div class="row">
+                                    <div class="col-sm-6 col-12 pt-4">
+                                        <label for="exampleInputEmail1" class="small">Background colour</label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#0C66FF" disabled>
+                                    </div>
+                                    <div class="col-sm-6 col-12 pt-4">
+                                        <label for="exampleInputEmail1" class="small">Text colour</label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="#HEX" value="#FFFFFF" disabled>
+                                    </div>
+                                </div>
+                                <div class="pt-4 text-danger small">
+                                    This functionality is available for members only.
+                                </div>
+                            </div>*@
                     </div>
 
                 </div>
@@ -267,7 +283,7 @@
                 <div class="modal-footer">
                     <div class="small text-muted">You cannot remove or edit your fact after posting it. No politics & no adult stricted content please!</div>
                     <div class="col-4 vertical-bottom">
-                        <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps" data-dismiss="modal"  aria-label="Close">
+                        <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="collapse" data-target="#collapsePostingSteps" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">
                                 Close
                             </span>
@@ -308,6 +324,8 @@
         </div>
     </div><!-- DIALOG_EXISTS ------------------------------------------------------------->
 
+    @RenderBody()
+
     <div class="loader text-center"><div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div></div>
 
     <footer>
@@ -324,69 +342,69 @@
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <script type="text/javascript">
-    $("#new_post_submit_button").click(function (e) {
-        debugger;
+        $("#new_post_submit_button").click(function (e) {
+            debugger;
 
 
-        //public class MDashBoardFact
-        //    {
-        //        public int FactId { get; set; }
-        //        public String FactTitle { get; set; }
-        //        public String FactHashTags { get; set; }
-        //        public String FactLink { get; set; }
-        //        public DateTime? FactCreateDate { get; set; }
-        //        public int FactRating { get; set; }
-        //        public DateTime? FactLastRateDate { get; set; }
-        //    }
+            //public class MDashBoardFact
+            //    {
+            //        public int FactId { get; set; }
+            //        public String FactTitle { get; set; }
+            //        public String FactHashTags { get; set; }
+            //        public String FactLink { get; set; }
+            //        public DateTime? FactCreateDate { get; set; }
+            //        public int FactRating { get; set; }
+            //        public DateTime? FactLastRateDate { get; set; }
+            //    }
 
-        var fact = new Object();
-        var fact_title = $("#new_post_title").val();
+            var fact = new Object();
+            var fact_title = $("#new_post_title").val();
 
-        if ((fact_title == null) || (fact_title.length <= 0)) {
-            e.preventDefault();
-            (alert("Please specify title!"));
-            return;
-        }
+            if ((fact_title == null) || (fact_title.length <= 0)) {
+                e.preventDefault();
+                (alert("Please specify title!"));
+                return;
+            }
 
-        var fact_link = $("#new_post_link").val();
-        if ((fact_link == null) || (fact_link.length <= 0)) {
-            e.preventDefault();
-            (alert("Please specify link!"));
-            return;
-        }
+            var fact_link = $("#new_post_link").val();
+            if ((fact_link == null) || (fact_link.length <= 0)) {
+                e.preventDefault();
+                (alert("Please specify link!"));
+                return;
+            }
 
-        var fact_hashTags = $("#new_post_hashtags").val();
-        if ((fact_hashTags != null) || (fact_hashTags.length <= 0)) {
-            fact.FactHashTags = fact_hashTags;
-        }
+            var fact_hashTags = $("#new_post_hashtags").val();
+            if ((fact_hashTags != null) || (fact_hashTags.length <= 0)) {
+                fact.FactHashTags = fact_hashTags;
+            }
 
 
-        fact.FactTitle = fact_title;
-        fact.FactLink = fact_link;
-        //fact.FactHashTags = "#test";
-        //fact.FactCreateDate = null;
-        //fact.FactRating = 0;
-        //fact.FactLastRateDate = null;
-        debugger;
-        //var vote_id = $(this).attr("vote-id");
-        //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
-        //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
+            fact.FactTitle = fact_title;
+            fact.FactLink = fact_link;
+            //fact.FactHashTags = "#test";
+            //fact.FactCreateDate = null;
+            //fact.FactRating = 0;
+            //fact.FactLastRateDate = null;
+            debugger;
+            //var vote_id = $(this).attr("vote-id");
+            //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
+            //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
+            var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
 
-        $.ajax({
-            type: "POST",
-            url: requestUrl,
-            data: JSON.stringify(fact),
-            success: function (data) {
-                debugger;
-                $(".posting").toggleClass("active");
-                $(".mb").toggleClass("deactive");
-            },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8"
+            $.ajax({
+                type: "POST",
+                url: requestUrl,
+                data: JSON.stringify(fact),
+                success: function (data) {
+                    debugger;
+                    $(".posting").toggleClass("active");
+                    $(".mb").toggleClass("deactive");
+                },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+
         });
-
-    });
     </script>
 
 </body>

@@ -1,23 +1,11 @@
-﻿@model List<FactotumModels.MDashBoardFact>
-@using System.Globalization;
-<!-- COOOKIES TOASTER -->
-<div class="toast" style="min-width: 100%;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-    <div class="toast-body">
-        <div class="row p-lg-0 p-3">
-            <div class="col-lg-11 pl-2 pb-1 vertical-center">
-                By continuing using this service, you aree that we are storing some minor information in you browser cookies, that helps you to see your highlighted posts and makes whole service faster for you convinient use. Closing this dialog, you agree with our policy and ability to store cookies on your device.
-                <br>
-                <a href="Privacy & Policy">Privacy & Policy</a>
-            </div>
-            <div class="col-lg-1 text-right pb-1">
-                <button id="factotumPrivacyAndPolicy" type="button" class="ml-2 mb-1 close nofocus pt-1" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+﻿@{
+    var Guid = ViewData["Guid"];
+}
 
+@model List<FactotumModels.MDashBoardFact>
+@using System.Globalization;
+
+<div class="hide" id="ftPaPvariables" ftPaPguid="@Guid"></div>
 
 <div class="overflowy">
     <!-- /#page-content-wrapper -->
@@ -115,11 +103,11 @@
         <div id="content_container">
             @foreach (var fact in Model)
             {
-                <div class="row table-post">
-                    <div class="col-md-7 col-8  order-md-1 order-1">
-                        @fact.FactTitle
-                        <br />
-                        @{
+            <div class="row table-post">
+                <div class="col-md-7 col-8  order-md-1 order-1">
+                    @fact.FactTitle
+                    <br />
+                    @{
                             if ((fact.FactHashTags != null) && (fact.FactHashTags.Length > 0))
                             {
                                 var arr = fact.FactHashTags.Split("#");
@@ -130,66 +118,66 @@
                                     {
                                         if (has_tag.Length > 0)
                                         {
-                                            <a href="#" class="badge badge-primary">#@has_tag</a>
+                        <a href="#" class="badge badge-primary">#@has_tag</a>
                                         }
                                     }
                                 }
                             }
-                        }
+                    }
 
 
-                    </div>
-                    <div class="col-md-1 col-6 order-md-2 order-4 post-time text-right">
-                        @{
+                </div>
+                <div class="col-md-1 col-6 order-md-2 order-4 post-time text-right">
+                    @{
 
                             DateTime? date = DateTime.Now;
                             var monthName = fact.FactCreateDate?.Date.ToString("MMM");
 
-                        }
-                        @fact.FactCreateDate?.Date.Day.ToString() @monthName
-                    </div>
-                    <div class="col-md-2 col-6 order-md-3 order-3 post-link">
-                        <a href="https://@fact.FactLink" target="_blank">@fact.FactLink</a>
-                    </div>
-                    <div class="col-md-2 col-4 order-md-4 order-2 text-right">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
+                    }
+                    @fact.FactCreateDate?.Date.Day.ToString() @monthName
+                </div>
+                <div class="col-md-2 col-6 order-md-3 order-3 post-link">
+                    <a href="https://@fact.FactLink" target="_blank">@fact.FactLink</a>
+                </div>
+                <div class="col-md-2 col-4 order-md-4 order-2 text-right">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right">
 
-                                <div class="btn-group-toggle post_vote" data-toggle="buttons">
-                                    <label class="btn btn-rate" data-vote-minus vote-id="@fact.FactId">
-                                        <input type="radio" name="options" id="option1" autocomplete="off">-
-                                    </label>
-                                    <label class="btn btn-rate" data-vote-plus vote-id="@fact.FactId">
-                                        <input type="radio" name="options" id="option2" autocomplete="off">+
-                                    </label>
-                                </div>
+                            <div class="btn-group-toggle post_vote" data-toggle="buttons">
+                                <label class="btn btn-rate" data-vote-minus vote-id="@fact.FactId">
+                                    <input type="radio" name="options" id="option1" autocomplete="off">-
+                                </label>
+                                <label class="btn btn-rate" data-vote-plus vote-id="@fact.FactId">
+                                    <input type="radio" name="options" id="option2" autocomplete="off">+
+                                </label>
                             </div>
+                        </div>
 
-                            <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
-                                @{
+                        <div class="col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right">
+                            @{
                                     bool isBannedRating = fact.FactRating < 0;
                                     bool isGoldenRating = fact.FactRating >= 900;
-                                }
-                                <div class="post_rating @(isGoldenRating  ? "golden" : "") @(isBannedRating  ? "banned" : "")">
-                                    <span id="data-vote-rating-@fact.FactId">
-                                        @{
+                            }
+                            <div class="post_rating @(isGoldenRating  ? "golden" : "") @(isBannedRating  ? "banned" : "")">
+                                <span id="data-vote-rating-@fact.FactId">
+                                    @{
 
                                             var ratingForDisplay = String.Format("{0:### ### ### ###}", fact.FactRating);
                                             ratingForDisplay = (fact.FactRating > 0) ? "+" + ratingForDisplay : fact.FactRating.ToString();
-                                        }
-
-                                        @ratingForDisplay
-
-                                    </span>
-                                    @if (isGoldenRating)
-                                    {
-                                        <div class="golden-dot"></div>
                                     }
-                                </div>
+
+                                    @ratingForDisplay
+
+                                </span>
+                                @if (isGoldenRating)
+                                    {
+                                <div class="golden-dot"></div>
+                                    }
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             }
         </div>
     </div>

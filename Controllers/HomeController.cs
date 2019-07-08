@@ -16,6 +16,8 @@ namespace FactotumWeb.Controllers
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
 
+            ViewData["Guid"] = Guid.NewGuid();
+
             var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
 
             return View(model);
@@ -32,7 +34,7 @@ namespace FactotumWeb.Controllers
 
 
             //https://localhost:44360/api/message/dashboard/byrating
-            ViewData["Message"] = "ABC.";
+            ViewData["Guid"] = Guid.NewGuid();
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
             //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");

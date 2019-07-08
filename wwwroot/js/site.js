@@ -14,10 +14,21 @@ fjs.boardManager = fjs.boardManager || {};
 
 fjs.boardManager.prepareMainDashboard = function () {
 
-    setCookie = function (e) {
-        var cname = ".factotumPrivacyAndPolicy";
-        var cvalue = "yes";
-        var exdays = 10;
+    setCookie = function (cname, cvalue) {
+        debugger;
+        if (cname.target) {
+            cname = cname.currentTarget.getAttribute("cname");
+            if (cname === ".ftPaP") {
+                cvalue = $("#ftPaPvariables").attr("ftPaPguid");
+               
+            }
+        }
+
+        //var fact_id = $(element).attr("vote-id");
+
+        //var cname = ".factotumPrivacyAndPolicy";
+        //var cvalue = "yes";
+        var exdays = 7;
 
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -47,23 +58,8 @@ fjs.boardManager.prepareMainDashboard = function () {
         return "";
     };
 
-    factotumCookiePrivacyAndPolicy = function () {
-        var result = getCookie(".factotumPrivacyAndPolicy");
-        debugger;
-        return result;
-
-    };
-
-    checkCookie = function (e) {
-        var username = getCookie(".username");
-        if (username !== "") {
-            alert("Welcome again " + username);
-        } else {
-            username = prompt("Please enter your name:", "");
-            if (username !== "" && username !== null) {
-                setCookie(".userName", username, 365);
-            }
-        }
+    checkCookie = function (cookieName) {
+        return getCookie(cookieName) !== "" ? true : false;
     };
 
 
@@ -115,7 +111,11 @@ fjs.boardManager.prepareMainDashboard = function () {
             success: function (data) {
                 debugger;
                 var id = "data-vote-rating-" + fact_id;
-                document.getElementById(id).innerHTML = parseInt(document.getElementById(id).innerHTML) - 1;
+
+                var updatedRating = parseInt(document.getElementById(id).innerHTML.trim().replace(/\s/g, '')) - 1;
+                document.getElementById(id).innerHTML = prepareRating(updatedRating);
+
+                //document.getElementById(id).innerHTML = parseInt(document.getElementById(id).innerHTML) - 1;
             },
             dataType: "json",
             contentType: "application/json; charset=utf-8"
@@ -127,12 +127,17 @@ fjs.boardManager.prepareMainDashboard = function () {
 
         //$("#testbtnCreate").click(setCookie);
         //$("#testbtnCheck").click(checkCookie);
-
-
-
-        $("#factotumPrivacyAndPolicy").click(setCookie);
-
         //$("#by_rating_button").click(getAndRefreshDashBoardData);
+
+        // Cookie agreement handle
+        var agreementExists = checkCookie(".ftPaP");
+        debugger;
+        if (!agreementExists) {
+            $('.toast').toast('show');
+            $("#factotumPrivacyAndPolicy").click(setCookie);
+        }
+
+        
 
         $("#by_rating_button").click(getAndRefreshDashBoardData);
 
@@ -143,6 +148,11 @@ fjs.boardManager.prepareMainDashboard = function () {
         // assign action to all like buttons
         $('*[data-vote-plus]').click(function () {
             iLikeIt(this);
+        });
+
+        // assign action to all dislike buttons
+        $('*[data-vote-minus]').click(function () {
+            iDislikeIt(this);
         });
 
         //$(".vote_plus").click(function (e) {
@@ -161,13 +171,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         //        contentType: "application/json; charset=utf-8"
         //    });
         //});
-
-        // assign action to all dislike buttons
-        $('*[data-vote-minus]').click(function () {
-            iDislikeIt(this);
-        });
-
-
 
         //Mobile Create & Cancel posting Script
         //$("#create-post").click(function (e) {
@@ -211,7 +214,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         });
         return temp_str;
     };
-
 
     getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
@@ -324,7 +326,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         });
     };
 
-
     init = function () {
         //alertMeBaby();
         assignEventsToControls();
@@ -333,9 +334,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         //    $('.toast').toast('show');
         //});
 
-
-        //var x = factotumCookiePrivacyAndPolicy();
-        //debugger;
 
         //if (x !== "yes") {
         //    $(document).ready(function () {

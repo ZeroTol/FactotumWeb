@@ -1,31 +1,11 @@
-﻿@*@{ 
-    var vdm = ViewData["Message"];
+﻿@{ 
+    var Guid = ViewData["Guid"];
 }
 
 @model List<FactotumModels.MDashBoardFact>
 @using System.Globalization;
 
-<div> 
- You - @vdm
-</div>*@
-<!-- COOOKIES TOASTER -->
-<div class="toast" style="min-width: 100%;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-    <div class="toast-body">
-        <div class="row p-lg-0 p-3">
-            <div class="col-lg-11 pl-2 pb-1 vertical-center">
-                By continuing using this service, you aree that we are storing some minor information in you browser cookies, that helps you to see your highlighted posts and makes whole service faster for you convinient use. Closing this dialog, you agree with our policy and ability to store cookies on your device.
-                <br>
-                <a href="Privacy & Policy">Privacy & Policy</a>
-            </div>
-            <div class="col-lg-1 text-right pb-1">
-                <button id="factotumPrivacyAndPolicy" type="button" class="ml-2 mb-1 close nofocus pt-1" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<div class="hide" id="ftPaPvariables" ftPaPguid="@Guid"></div>
 
 <div class="overflowy">
     <!-- /#page-content-wrapper -->
