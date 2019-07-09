@@ -14,13 +14,15 @@ fjs.boardManager = fjs.boardManager || {};
 
 fjs.boardManager.prepareMainDashboard = function () {
 
+    let guid = "";
+
     setCookie = function (cname, cvalue) {
         debugger;
         if (cname.target) {
             cname = cname.currentTarget.getAttribute("cname");
             if (cname === ".ftPaP") {
                 cvalue = $("#ftPaPvariables").attr("ftPaPguid");
-               
+
             }
         }
 
@@ -77,6 +79,16 @@ fjs.boardManager.prepareMainDashboard = function () {
         var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/LikeFact`;
 
         var fact_id = $(element).attr("vote-id");
+        let cname = "ftfid_" + fact_id;
+
+        const previousVoteValue = getCookie(cname);
+
+        if (previousVoteValue === "0" || previousVoteValue === "1") {
+            if (previousVoteValue === "1") {
+                //console.log(`Fact id ${fact_id} already Liked.`);
+                return;
+            }
+        }
 
         $.ajax({
             type: "POST",
@@ -86,6 +98,7 @@ fjs.boardManager.prepareMainDashboard = function () {
                 var id = "data-vote-rating-" + fact_id;
                 var updatedRating = parseInt(document.getElementById(id).innerHTML.trim().replace(/\s/g, '')) + 1;
                 document.getElementById(id).innerHTML = prepareRating(updatedRating);
+                setCookie(cname, "1");
             },
             dataType: "json",
             contentType: "application/json; charset=utf-8"
@@ -95,6 +108,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     };
 
     iDislikeIt = function (element) {
+        debugger;
         //var article_id = $(element).attr("article-row-id");
         //alert(`You dislike article number: ${article_id}`);
 
@@ -103,6 +117,16 @@ fjs.boardManager.prepareMainDashboard = function () {
         var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/DislikeFact`;
 
         var fact_id = $(element).attr("vote-id");
+
+        let cname = "ftfid_" + fact_id;
+        const previousVoteValue = getCookie(cname);
+        if (previousVoteValue === "0" || previousVoteValue === "1") {
+            if (previousVoteValue === "0") {
+                //console.log(`Fact id ${fact_id} already Disliked.`);
+                return;
+            }
+        }
+
 
         $.ajax({
             type: "POST",
@@ -114,7 +138,7 @@ fjs.boardManager.prepareMainDashboard = function () {
 
                 var updatedRating = parseInt(document.getElementById(id).innerHTML.trim().replace(/\s/g, '')) - 1;
                 document.getElementById(id).innerHTML = prepareRating(updatedRating);
-
+                setCookie("ftfid_" + fact_id, "0");
                 //document.getElementById(id).innerHTML = parseInt(document.getElementById(id).innerHTML) - 1;
             },
             dataType: "json",
@@ -131,13 +155,16 @@ fjs.boardManager.prepareMainDashboard = function () {
 
         // Cookie agreement handle
         var agreementExists = checkCookie(".ftPaP");
-        debugger;
+
         if (!agreementExists) {
             $('.toast').toast('show');
             $("#factotumPrivacyAndPolicy").click(setCookie);
         }
+        else {
+            guid = getCookie(".ftPaP");
+        }
 
-        
+
 
         $("#by_rating_button").click(getAndRefreshDashBoardData);
 
@@ -150,10 +177,41 @@ fjs.boardManager.prepareMainDashboard = function () {
             iLikeIt(this);
         });
 
+
         // assign action to all dislike buttons
         $('*[data-vote-minus]').click(function () {
             iDislikeIt(this);
         });
+
+        // Active vote detection and mark on the screen `-` and `+`
+        var arr = $('*[data-vote-minus]');
+        for (index = 0; index < arr.length; ++index) {
+            var element = arr[index];
+
+            // TODO: Code review. Make single function for better performance.
+            var fact_id = $(element).attr("vote-id");
+            let cname = "ftfid_" + fact_id;
+
+            const previousVoteValue = getCookie(cname);
+
+            if (previousVoteValue === "0" || previousVoteValue === "1") {
+                if (previousVoteValue === "0") {
+                    //console.log(`Fact id ${fact_id} already Disliked.`);
+                    $(element).addClass("active");
+                    //return;
+                }
+                else
+                    if (previousVoteValue === "1") {
+                        $(element).removeClass("active");
+                        $(`#plus_${cname}`).addClass("active");
+                        //console.log(`Fact id ${fact_id} already Liked.`);
+                        //return;
+                    }
+
+            }
+
+            //console.log(arr[index]);
+        }
 
         //$(".vote_plus").click(function (e) {
         //    var vote_id = $(this).attr("vote-id");
@@ -196,7 +254,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     };
 
     prepareRating = function (rating) {
-        var sign = (rating > 0) ? `+` : ``;
+        var sign = (rating > 0) ? `+ ` : ``;
         return sign + rating.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     };
 
@@ -217,6 +275,7 @@ fjs.boardManager.prepareMainDashboard = function () {
 
     getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
+
         //var requestUrl = `https://localhost:5001/api/message/dashboard/${dataOrder}`;
         var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
 
@@ -282,8 +341,8 @@ fjs.boardManager.prepareMainDashboard = function () {
                  ${(e.factTitle)}
                 <br />
                 ${e.factHashTags !== null && e.factHashTags.length > 0
-                    ? prepareHashTags(e.factHashTags)
-                    : ``}
+                            ? prepareHashTags(e.factHashTags)
+                            : ``}
             </div >
             <div class='col-md-1 col-6   order-md-2 order-4 post-time text-right'>
                 ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ''.toString()}
@@ -298,7 +357,7 @@ fjs.boardManager.prepareMainDashboard = function () {
                             <label class='btn btn-rate' data-vote-minus vote-id='${e.factId}'>
                                 <input type='radio' name='options' id='option1' autocomplete='off'>-
                             </label>
-                            <label class='btn btn-rate' data-vote-plus vote-id='${e.factId}'>
+                            <label id='plus_ftfid_${e.factId}' class='btn btn-rate' data-vote-plus vote-id='${e.factId}'>
                                 <input type='radio' name='options' id='option2' autocomplete='off'>+
                             </label>
                         </div>
@@ -307,9 +366,9 @@ fjs.boardManager.prepareMainDashboard = function () {
 
 
                     <div class='col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right'>
-                        <div class='post_rating ${isGoldenRating ? 'golden' : ''} ${(isBannedRating) ? 'banned' : '' }' data-fact-rating>
+                        <div class='post_rating ${isGoldenRating ? 'golden' : ''} ${(isBannedRating) ? 'banned' : ''}' data-fact-rating>
                             <span id="data-vote-rating-${e.factId}">
-                                 ${ prepareRating(e.factRating) }
+                                 ${ prepareRating(e.factRating)}
                             </span>
                             ${(isGoldenRating) ? `<div class='golden-dot'></div>` : ``}
                         </div>
