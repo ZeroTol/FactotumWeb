@@ -18,6 +18,7 @@ namespace FactotumWeb.Controllers
 
             ViewData["Guid"] = Guid.NewGuid();
 
+            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");
             var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
 
             return View(model);

@@ -7,9 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FactotumModels;
 using FactotumModels.Context;
+using FactotumWeb.Repository;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FactotumWeb.Controllers
 {
+    [Authorize]
     public class EDashBoardFactsController : Controller
     {
         private readonly FtDbContext _context;
@@ -22,7 +27,17 @@ namespace FactotumWeb.Controllers
         // GET: EDashBoardFacts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Dashboard.ToListAsync());
+            //return View(await _context.Dashboard.ToListAsync());
+            var xxx = await _context.Dashboard.ToListAsync();
+
+            //https://localhost:44360/api/message/dashboard/byrating
+            ViewData["Guid"] = Guid.NewGuid();
+            string DomainName = HttpContext.Request.Path;
+            string Domain = HttpContext.Request.Host.Host;
+            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");
+            var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/EDashBoardFacts/");
+
+            return View(model);
         }
 
         // GET: EDashBoardFacts/Details/5
@@ -34,7 +49,7 @@ namespace FactotumWeb.Controllers
             }
 
             var eDashBoardFact = await _context.Dashboard
-                .FirstOrDefaultAsync(m => m.FactId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (eDashBoardFact == null)
             {
                 return NotFound();
@@ -54,13 +69,30 @@ namespace FactotumWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FactId,FactTitle,FactLink,FactCreateDate,FactRating,FactHashTags,FactLastRateDate")] EDashBoardFact eDashBoardFact)
+        public async Task<IActionResult> Create([Bind("Id,FactId,FactRating,FactCreateDate,FactLastRateDate,FactTitle,FactLink,FactHashTags")] EDashBoardFact eDashBoardFact)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(eDashBoardFact);
-                await _context.SaveChangesAsync();
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        //"https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating"
+                        //client.BaseAddress = new Uri("https://factotumwebapi.azurewebsites.net");
+
+                        client.BaseAddress = new Uri("https://localhost:5001");
+                        var result = await client.PostAsJsonAsync("/api/EDashBoardFacts", eDashBoardFact);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
+
+                //_context.Add(eDashBoardFact);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
             }
             return View(eDashBoardFact);
         }
@@ -86,31 +118,47 @@ namespace FactotumWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FactId,FactTitle,FactLink,FactCreateDate,FactRating,FactHashTags,FactLastRateDate")] EDashBoardFact eDashBoardFact)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FactId,FactRating,FactCreateDate,FactLastRateDate,FactTitle,FactLink,FactHashTags")] EDashBoardFact eDashBoardFact)
         {
-            if (id != eDashBoardFact.FactId)
+            if (id != eDashBoardFact.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                using (var client = new HttpClient())
                 {
-                    _context.Update(eDashBoardFact);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EDashBoardFactExists(eDashBoardFact.FactId))
+                    try
                     {
-                        return NotFound();
+                        //"https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating"
+                        //client.BaseAddress = new Uri("https://factotumwebapi.azurewebsites.net");
+
+                        client.BaseAddress = new Uri("https://localhost:5001");
+                        var result = await client.PutAsJsonAsync($"/api/EDashBoardFacts/{eDashBoardFact.Id}", eDashBoardFact);
                     }
-                    else
+                    catch (Exception)
                     {
-                        throw;
+                        return null;
                     }
                 }
+                //try
+                //{
+                //    _context.Update(eDashBoardFact);
+                //    await _context.SaveChangesAsync();
+                //}
+                //catch (DbUpdateConcurrencyException)
+                //{
+                //    if (!EDashBoardFactExists(eDashBoardFact.Id))
+                //    {
+                //        return NotFound();
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
+                //}
+
                 return RedirectToAction(nameof(Index));
             }
             return View(eDashBoardFact);
@@ -125,7 +173,7 @@ namespace FactotumWeb.Controllers
             }
 
             var eDashBoardFact = await _context.Dashboard
-                .FirstOrDefaultAsync(m => m.FactId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (eDashBoardFact == null)
             {
                 return NotFound();
@@ -140,14 +188,14 @@ namespace FactotumWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var eDashBoardFact = await _context.Dashboard.FindAsync(id);
-            _context.Dashboard.Remove(eDashBoardFact);
-            await _context.SaveChangesAsync();
+            //_context.Dashboard.Remove(eDashBoardFact);
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EDashBoardFactExists(int id)
         {
-            return _context.Dashboard.Any(e => e.FactId == id);
+            return _context.Dashboard.Any(e => e.Id == id);
         }
     }
 }

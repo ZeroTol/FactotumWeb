@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FactotumModels.Context;
+using FactotumModels.Services;
+using FactotumWeb.Helpers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,16 +50,22 @@ namespace FactotumWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.WithOrigins(
-                    "https://localhost:44347", 
+                    "https://localhost:44347",
                     "https://factotum.azurewebsites.net",
                     "http://factotum.azurewebsites.net"));
             });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // configure basic authentication 
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
 
             services.AddEntityFrameworkSqlite().AddDbContext<FtDbContext>();
 
@@ -79,6 +88,15 @@ namespace FactotumWeb
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -86,7 +104,10 @@ namespace FactotumWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseCors(options => options.AllowAnyOrigin());
+
+            //app.UseAuthentication();
+
+            //app.UseCors(options => options.AllowAnyOrigin());
         }
     }
 }

@@ -12,6 +12,30 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FactId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FactId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FactRating)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FactRating)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FactCreateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FactCreateDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FactLastRateDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FactLastRateDate)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FactTitle)
         </dt>
         <dd class = "col-sm-10">
@@ -24,32 +48,14 @@
             @Html.DisplayFor(model => model.FactLink)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FactCreateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FactCreateDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FactRating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FactRating)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FactHashTags)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FactHashTags)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FactLastRateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FactLastRateDate)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.FactId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

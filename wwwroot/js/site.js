@@ -16,6 +16,8 @@ fjs.boardManager.prepareMainDashboard = function () {
 
     let guid = "";
 
+    let cliendKey = "";
+
     setCookie = function (cname, cvalue) {
         debugger;
         if (cname.target) {
@@ -147,8 +149,28 @@ fjs.boardManager.prepareMainDashboard = function () {
         //});
     };
 
-    assignEventsToControls = function () {
+    login = function (e) {
+        debugger;
+        var authHeader = `Authorization test:test`;
+        var str1 = $(`#loginEmail`).val();
+        var str2 = $(`#loginPassword`).val();
 
+        var requestUrl = `https://localhost:44347/api/FakeApi/GetAllAuthor`; /*`https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;*/
+        $.ajax({
+            url: requestUrl,
+            headers: { "Authorization": `Authorization ${str1}:${str2}` },
+            success: function (data) {
+                if (data === true) {
+                    this.cliendKey = `Authorization ${str1}:${str2}`;
+                } else {
+                    this.cliendKey = ``;
+                }
+            }
+        });
+    };
+
+    assignEventsToControls = function () {
+        $("#loginSubmit").click(login);
         //$("#testbtnCreate").click(setCookie);
         //$("#testbtnCheck").click(checkCookie);
         //$("#by_rating_button").click(getAndRefreshDashBoardData);
