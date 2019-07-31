@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FactotumModels.Context;
-using FactotumModels.Services;
-using FactotumWeb.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,11 +27,11 @@ namespace FactotumWeb
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
 
-            using (var db = new FtDbContext())
-            {
-                db.Database.EnsureCreated();
-                db.Database.Migrate();
-            }
+            //using (var db = new FtDbContext())
+            //{
+            //    db.Database.EnsureCreated();
+            //    db.Database.Migrate();
+            //}
 
         }
 
@@ -61,13 +58,13 @@ namespace FactotumWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // configure basic authentication 
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            //services.AddAuthentication("BasicAuthentication")
+            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
 
-            services.AddEntityFrameworkSqlite().AddDbContext<FtDbContext>();
+            //services.AddEntityFrameworkSqlite().AddDbContext<FtDbContext>();
 
         }
 
