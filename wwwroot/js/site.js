@@ -298,6 +298,8 @@ fjs.boardManager.prepareMainDashboard = function () {
 
         var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/dashboard/${dataOrder}`;
 
+        debugger;
+
         $.get(requestUrl, function (data) {
             if ((data) && (data.length > 0)) {
                 var content = ``;
@@ -365,7 +367,7 @@ fjs.boardManager.prepareMainDashboard = function () {
                 ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ''.toString()}
             </div>
             <div class='col-md-2 col-6   order-md-3 order-3 post-link'> 
-                <a href='https://${e.factLink}' target='_blank'>${e.factLink}</a> 
+                <a href='https://${e.factLink}' target='_blank'>some url: ${e.factLink}</a> 
             </div>
             <div class='col-md-2 col-4   order-md-4 order-2 text-right'>
                 <div class='row'>

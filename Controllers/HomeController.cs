@@ -19,15 +19,31 @@ namespace FactotumWeb.Controllers
             ViewData["Guid"] = Guid.NewGuid();
 
             var model = await MessageRepository.GetDashBoardMessages(Consts.baseAPIURLssl + "/api/message/dashboard/byrating");
-            //var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
+            foreach (FactotumModels.MDashBoardFact fact in model)
+            {
+                var url = fact.FactLink;
+                int httpsi  = url.IndexOf("http://", StringComparison.CurrentCulture);
+                int httpi = url.IndexOf("https://", StringComparison.CurrentCulture);
+
+                if (httpsi == -1 && httpi == -1)
+                {
+                    url = "http://" + url;
+                    fact.FactLink = url;
+                }
+
+                url = url.Replace("http://", "");
+                url = url.Replace("https://", "");
+                int n = url.IndexOf('/');
+                if (n>0)
+                {
+                    url = url.Remove(n);
+                }
+
+                fact.Link = url;
+            }
 
             return View(model);
 
-            //var model = await MessageRepository.Get("http://factotumapi.azurewebsites.net/api/message");
-            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboardmessages");
-            //var model = await MessageRepository.GetDashBoardMessages("http://factotumapi.azurewebsites.net/api/message/dashboardmessages");
-            //return View(model);
-            //return View();
         }
 
         public async Task<IActionResult> Fake()
