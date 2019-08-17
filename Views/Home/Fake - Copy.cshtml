@@ -523,13 +523,11 @@ msg.FactCreateDate.Date.Month.ToString())
 </div> <!-- /#wrapper -->
 @*<button id="test_button" type="button" aria-label="Close">Tralala</button>*@
 
-<script type="text/javascript">
-
-    $('*[data-vote-plus]').click(function (e) {
+<script type="text/javascript">$('*[data-vote-plus]').click(function (e) {
         debugger;
         //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/LikeFact`;
-        
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/LikeFact`;
+
         var fact_id = $(this).attr("vote-id");
 
         $.ajax({
@@ -547,7 +545,7 @@ msg.FactCreateDate.Date.Month.ToString())
 
     $('*[data-vote-minus]').click(function (e) {
         //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/DislikeFact`;
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/DislikeFact`;
 
         var fact_id = $(this).attr("vote-id");
 
@@ -603,7 +601,7 @@ msg.FactCreateDate.Date.Month.ToString())
         //var vote_id = $(this).attr("vote-id");
         //var requestUrl = "https://localhost:44347/api/FakeApi/AppendFact"
         //var requestUrl = `https://localhost:5001/api/message/AppendFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/AppendFact`;
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/AppendFact`;
 
         $.ajax({
             type: "POST",
@@ -623,7 +621,7 @@ msg.FactCreateDate.Date.Month.ToString())
     var getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
         //var requestUrl = `https://localhost:5001/api/message/dashboard/${dataOrder}`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/dashboard/${dataOrder}`;
 
         var prepareHashTags = function (hashTags) {
             var temp_str = ``;
@@ -706,5 +704,4 @@ msg.FactCreateDate.Date.Month.ToString())
 
     $("#latest_rated_button").click(getAndRefreshDashBoardData);
 
-    $("#latest_added_button").click(getAndRefreshDashBoardData);
-</script>
+    $("#latest_added_button").click(getAndRefreshDashBoardData);</script>

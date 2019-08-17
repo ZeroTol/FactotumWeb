@@ -18,8 +18,8 @@ namespace FactotumWeb.Controllers
 
             ViewData["Guid"] = Guid.NewGuid();
 
-            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");
-            var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
+            var model = await MessageRepository.GetDashBoardMessages(Consts.baseAPIURLssl + "/api/message/dashboard/byrating");
+            //var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
 
             return View(model);
 
@@ -38,8 +38,8 @@ namespace FactotumWeb.Controllers
             ViewData["Guid"] = Guid.NewGuid();
             string DomainName = HttpContext.Request.Path;
             string Domain = HttpContext.Request.Host.Host;
-            //var model = await MessageRepository.GetDashBoardMessages("https://localhost:5001/api/message/dashboard/byrating");
-            var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
+            var model = await MessageRepository.GetDashBoardMessages(Consts.baseAPIURLssl + "/api/message/dashboard/byrating");
+            //var model = await MessageRepository.GetDashBoardMessages("https://factotumwebapi.azurewebsites.net/api/message/dashboard/byrating");
             return View(model);
         }
 

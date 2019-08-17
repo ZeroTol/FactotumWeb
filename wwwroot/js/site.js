@@ -77,8 +77,7 @@ fjs.boardManager.prepareMainDashboard = function () {
 
         //$('*[data-vote-plus]').click(function (e) {
         debugger;
-        //var requestUrl = `https://localhost:5001/api/message/LikeFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/LikeFact`;
+        var requestUrl = `<%= Consts.baseAPIssl %>/api/message/LikeFact`;
 
         var fact_id = $(element).attr("vote-id");
         let cname = "ftfid_" + fact_id;
@@ -115,8 +114,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         //alert(`You dislike article number: ${article_id}`);
 
         //$('*[data-vote-minus]').click(function (e) {
-        //var requestUrl = `https://localhost:5001/api/message/DislikeFact`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/DislikeFact`;
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/DislikeFact`;
 
         var fact_id = $(element).attr("vote-id");
 
@@ -155,7 +153,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         var str1 = $(`#loginEmail`).val();
         var str2 = $(`#loginPassword`).val();
 
-        var requestUrl = `https://localhost:44347/api/FakeApi/GetAllAuthor`; /*`https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;*/
+        var requestUrl = `<%= Consts.baseAPIURLadditionalssl %>/api/FakeApi/GetAllAuthor`; /*`https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;*/
         $.ajax({
             url: requestUrl,
             headers: { "Authorization": `Authorization ${str1}:${str2}` },
@@ -298,10 +296,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
 
-        //var requestUrl = `https://localhost:5001/api/message/dashboard/${dataOrder}`;
-        var requestUrl = `https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;
-
-
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/dashboard/${dataOrder}`;
 
         $.get(requestUrl, function (data) {
             if ((data) && (data.length > 0)) {

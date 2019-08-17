@@ -50,7 +50,8 @@ namespace FactotumWeb
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.WithOrigins(
-                    "https://localhost:44347",
+                    Consts.baseAPIURLssl,
+                    Consts.baseAPIURLadditionalssl,
                     "https://factotum.azurewebsites.net",
                     "http://factotum.azurewebsites.net"));
             });
