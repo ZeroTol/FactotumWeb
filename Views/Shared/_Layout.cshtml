@@ -39,7 +39,7 @@
                 <div class="col-lg-11 pl-2 pb-1 vertical-center">
                     By continuing using this service, you aree that we are storing some minor information in you browser cookies, that helps you to see your highlighted posts and makes whole service faster for you convinient use. Closing this dialog, you agree with our policy and ability to store cookies on your device.
                     <br>
-                    <a href="Privacy & Policy">Privacy & Policy</a>
+                    <a href="@Url.Action("Index", "Policy")">Privacy & Policy</a>
                 </div>
                 <div class="col-lg-1 text-right pb-1">
                     <button id="factotumPrivacyAndPolicy" cname=".ftPaP" cvalue="123" type="button" class="ml-2 mb-1 close nofocus pt-1" data-dismiss="toast" aria-label="Close">
@@ -62,17 +62,25 @@
                     <div class="list-group">
                         <button type="button" class="list-group-item list-group-item-action nofocus active" data-toggle="modal" data-target="#popup_posting_1">  Home</button>
                         <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Philosophy") + "'");"> Philosophy</button>
-                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "DevBlog") + "'");">    Dev Blog</button>
-                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Policy") + "'");">     Policy</button>
-                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Member") + "'");">     Member</button>
-                        <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_password_recovery">                        Password Recovery</button>
+                        <!--<button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "DevBlog") + "'");">    Dev Blog</button>-->
+                        <!--<button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Member") + "'");">     Member</button>-->
+                        <!--<button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_password_recovery">                        Password Recovery</button>-->
+                        <!-- add login check-->
                         <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_register">                                 Create an account</button>
                     </div>
+
+                    <!-- add login check-->
                     <div class="list-group pt-5">
                         <button type="button" class="list-group-item list-group-item-action nofocus" data-toggle="modal" data-target="#popup_login">Log in</button>
                     </div>
+
+                    <!-- add loginout -->
                     <div class="list-group pt-5">
-                        <button type="button" class="list-group-item list-group-item-action nofocus btn-sm">         Privacy & Policy</button>
+                        <button type="button" class="list-group-item list-group-item-action nofocus" onclick="@("window.location.href='" + @Url.Action("Index", "Logout") + "'");">Log out</button>
+                    </div>
+
+                    <div class="list-group pt-5">
+                        <button type="button" class="list-group-item list-group-item-action nofocus btn-sm" onclick="@("window.location.href='" + @Url.Action("Index", "Policy") + "'");">         Privacy & Policy</button>
                     </div>
                 </div>
             </div>
@@ -88,6 +96,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="pt-3" id="">
+                        <!--
                         <div class="alert alert-primary" role="alert">
                             Continue with Facebook
                         </div>
@@ -96,9 +105,7 @@
                         </div>
                         <div class="alert alert-warning" role="alert">
                             Continue with Google
-                        </div>
-                        <hr class="my-4">
-                        <div class="text-left pb-4"><strong>Or with old school approach?</strong></div>
+                        </div>-->
                         <form>
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="small">Email address</label>
@@ -107,7 +114,7 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1" class="small">Password</label>
                                 <input type="password" class="form-control" id="loginPassword" placeholder="Password">
-                                <small id="emailHelp" class="form-text text-muted"><a href="passrecovery_dialog" class="link">Forgot your password?</a></small>
+                                <small id="emailHelp" class="form-text text-muted"><a href="#" data-toggle="modal" data-dismiss="modal" data-target="#popup_password_recovery" class="link">Forgot your password?</a></small>
                             </div>
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -120,13 +127,14 @@
                 <div class="modal-footer">
                     <div class="col-12 vertical-bottom">
                         <button id="loginSubmit" type="submit" class="btn btn-primary btn-block">Submit</button>
-                        <div class="text-center py-4"><a href="register modal" class="link small">Don't have an account? Create one!</a></div>
+                        <div class="text-center py-4"><a href="#" class="link small" data-toggle="modal" data-dismiss="modal" data-target="#popup_register">Don't have an account? Create one!</a></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div><!-- DIALOG -->
-    <!-- LOGIN -->
+    </div>
+    <!-- DIALOG -->
+    <!-- FORGOT -->
     <div class="modal fade" id="popup_password_recovery" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-sm" role="document">
             <div class="modal-content">
@@ -163,7 +171,8 @@
                 </div>
             </div>
         </div>
-    </div><!-- DIALOG -->
+    </div>
+    <!-- DIALOG -->
     <!-- REGISTER -->
     <div class="modal fade" id="popup_register" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-sm" role="document">
@@ -173,34 +182,39 @@
                     <button type="button" class="close nofocus" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="pt-3" id="">
-                        <div class="collapse show" id="collapse_Register">
-                            <form>
+                    <div class="pt-3" id="Register">
+                        <div class="collapse show" id="collapse_Register" role="tabpanel">
+                            <form id="registerform">
                                 <div class="form-group">
+                                    <div class="small" style="color:red;display:none;" id="err_email">Invalide email</div>
                                     <label for="exampleInputEmail1" class="small">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <input type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email">
                                 </div>
                                 <div class="form-group">
+                                    <div class="small" style="color:red;display:none;" id="err_password">Passwords must be equals</div>
                                     <label for="exampleInputPassword1" class="small">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                    <input type="password" class="form-control" id="registerPswd1" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="small">Password again</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password check">
+                                    <input type="password" class="form-control" id="registerPswd2" placeholder="Password check">
                                 </div>
                                 <div class="form-group">
+                                    <div class="small" style="color:red;display:none;" id="err_nickname">Invalide nickname</div>
                                     <label for="exampleInputEmail1" class="small">Username</label>
-                                    <input type="text" class="form-control" id="exampleInputUsername" aria-describedby="emailHelp" placeholder="Your nickname">
+                                    <input type="text" class="form-control" id="registerUsername" aria-describedby="emailHelp" placeholder="Your nickname">
                                 </div>
                                 <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <div class="small" style="color:red;display:none;" id="err_terms">You must agree Terms&Conditions</div>
+
+                                    <input type="checkbox" class="form-check-input" id="registerTerms">
                                     <label class="form-check-label small" for="exampleCheck1">I agree with <a href="terms & conditions" class="link">terms & conditions</a></label>
                                 </div>
                             </form>
                         </div>
-                        <div class="collapse text-center" id="collapse_Register">
+                        <div class="collapse text-center" id="collapse_Register" role="tabpanel">
                             Confirmation email was sent to your email.<br>
-                            alexius.yushkov@gmail.com<br>
+                            <div class="small" id="regemail">a@a.lv</div><br>
                             <div class="small pt-3">Please wait 10 minutes before clicking resend.</div>
                             <div class="pt-4 pb-2">
                                 <a href="resend?" class="link">Resend</a>
@@ -211,7 +225,7 @@
                 <div class="collapse show" id="collapse_Register">
                     <div class="modal-footer">
                         <div class="col-12 vertical-bottom">
-                            <button type="submit" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapse_Register">Register</button>
+                            <button id="registerSubmit" type="submit" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapse_Register">Register</button>
                         </div>
                     </div>
                 </div>

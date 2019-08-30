@@ -1,10 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-
-
+﻿let baseAPIURLssl = "https://localhost:6001";
 
 // JavaScript object for dashboard handle
 var fjs = window.fjs || {};
@@ -114,7 +108,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         //alert(`You dislike article number: ${article_id}`);
 
         //$('*[data-vote-minus]').click(function (e) {
-        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/DislikeFact`;
+        var requestUrl = baseAPIURLssl + `/api/message/DislikeFact`;
 
         var fact_id = $(element).attr("vote-id");
 
@@ -153,7 +147,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         var str1 = $(`#loginEmail`).val();
         var str2 = $(`#loginPassword`).val();
 
-        var requestUrl = `<%= Consts.baseAPIURLadditionalssl %>/api/FakeApi/GetAllAuthor`; /*`https://factotumwebapi.azurewebsites.net/api/message/dashboard/${dataOrder}`;*/
+        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/Register/Login`
         $.ajax({
             url: requestUrl,
             headers: { "Authorization": `Authorization ${str1}:${str2}` },
@@ -167,8 +161,92 @@ fjs.boardManager.prepareMainDashboard = function () {
         });
     };
 
+    register = function (e) {
+        debugger;
+        var url = baseAPIURLssl;
+        alert(url);
+
+        $(`#err_terms`).hide();
+        $(`#err_email`).hide();
+        $(`#err_password`).hide();
+        $(`#err_nickname`).hide();
+
+        var pswd1 = $(`#registerPswd1`).val();
+        var pswd2 = $(`#registerPswd2`).val();
+        var terms = $(`#registerTerms`).is(":checked");;
+        var mail = $(`#registerEmail`).val();
+        var user = $(`#registerUsername`).val();
+
+        var success = true;
+
+        if (!terms)
+        {
+            $(`#err_terms`).show();
+            success = false;
+        }
+
+        if (user == "")
+        {
+            $(`#err_nickname`).show();
+            success = false;
+        }
+
+        if (mail == "")
+        {
+            $(`#err_email`).show();
+
+            success = false;
+        }
+
+        if (pswd1 == "" || pswd2 == "")
+        {
+
+            $(`#err_password`).show();
+
+            success = false;
+        }
+
+        if (pswd1 != pswd2)
+        {
+            $(`#err_password`).show();
+            success = false;
+        }
+
+        if (!success) return false;
+
+        var authHeader = `Register test:test`;
+        var str_mail = mail;
+        var str_user = user;
+        var str_pswd = pswd1;
+
+
+        var _model = [];
+        _model = { email: str_mail, username: str_user, password:str_pswd };
+
+        var jsonObj = JSON.stringify(_model);
+        
+        $('#regemail').html(str_mail);
+
+
+
+        var requestUrl = baseAPIURLssl + `/api/Register/Register`;
+        alert(requestUrl);
+        $.ajax({
+            type: "POST",
+            url: requestUrl,
+            data: jsonObj,
+            success: function (data) {
+                debugger;
+                setCookie("Registration", "1");
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8"
+        });
+    };
+
     assignEventsToControls = function () {
         $("#loginSubmit").click(login);
+        $("#registerSubmit").click(register);
         //$("#testbtnCreate").click(setCookie);
         //$("#testbtnCheck").click(checkCookie);
         //$("#by_rating_button").click(getAndRefreshDashBoardData);
@@ -297,6 +375,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         var dataOrder = $(this).attr("data-order-type");
 
         var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/dashboard/${dataOrder}`;
+        alert(requestUrl);
 
         debugger;
 
