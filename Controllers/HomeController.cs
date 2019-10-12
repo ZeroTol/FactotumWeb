@@ -18,7 +18,7 @@ namespace FactotumWeb.Controllers
 
             ViewData["Guid"] = Guid.NewGuid();
 
-            var model = await MessageRepository.GetDashBoardMessages(Consts.baseAPIURLssl + "/api/message/dashboard/byrating");
+            var model = await MessageRepository.GetDashBoardMessages(Consts.baseAPIURL + "/api/message/dashboard/byrating");
             foreach (FactotumModels.MDashBoardFact fact in model)
             {
                 var url = fact.FactLink;

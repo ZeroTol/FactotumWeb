@@ -4,7 +4,7 @@ namespace FactotumWeb
 {
     public static class Consts
     {
-        public const string baseAPIURL = "https://localhost:6001";
+        public const string baseAPIURL = "http://localhost:6002";
         public const string baseAPIURLssl = "https://localhost:6001";
         public const string baseAPIURLadditionalssl = "https://localhost:44347";
 
