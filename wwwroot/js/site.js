@@ -1,4 +1,4 @@
-﻿let baseAPIURLssl = "https://localhost:6001";
+﻿let baseAPIURLssl = "https://factotumwebapi.azurewebsites.net";
 
 // JavaScript object for dashboard handle
 var fjs = window.fjs || {};
@@ -12,8 +12,10 @@ fjs.boardManager.prepareMainDashboard = function () {
 
     let cliendKey = "";
 
+    const apiUrl = "https://factotumwebapi.azurewebsites.net";
+
     setCookie = function (cname, cvalue) {
-        debugger;
+        //debugger;
         if (cname.target) {
             cname = cname.currentTarget.getAttribute("cname");
             if (cname === ".ftPaP") {
@@ -60,7 +62,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         return getCookie(cookieName) !== "" ? true : false;
     };
 
-
     alertMeBaby = function () {
         alert("Hello Baby!");
     };
@@ -70,8 +71,8 @@ fjs.boardManager.prepareMainDashboard = function () {
         //alert(`You like article number: ${article_id}`);
 
         //$('*[data-vote-plus]').click(function (e) {
-        debugger;
-        var requestUrl = `<%= Consts.baseAPIssl %>/api/message/LikeFact`;
+        //debugger;
+        var requestUrl = `<${apiUrl}/api/message/LikeFact`;
 
         var fact_id = $(element).attr("vote-id");
         let cname = "ftfid_" + fact_id;
@@ -84,6 +85,12 @@ fjs.boardManager.prepareMainDashboard = function () {
                 return;
             }
         }
+
+        //TODO: Refactor this, vote agregation for test, ajax call independant cookie save
+        var id = "data-vote-rating-" + fact_id;
+        var updatedRating = parseInt(document.getElementById(id).innerHTML.trim().replace(/\s/g, '')) + 1;
+        document.getElementById(id).innerHTML = prepareRating(updatedRating);
+        setCookie(cname, "1");
 
         $.ajax({
             type: "POST",
@@ -100,15 +107,17 @@ fjs.boardManager.prepareMainDashboard = function () {
         });
         //});
 
+
+
     };
 
     iDislikeIt = function (element) {
-        debugger;
+        //debugger;
         //var article_id = $(element).attr("article-row-id");
         //alert(`You dislike article number: ${article_id}`);
 
         //$('*[data-vote-minus]').click(function (e) {
-        var requestUrl = baseAPIURLssl + `/api/message/DislikeFact`;
+        var requestUrl = `${apiUrl}/api/message/DislikeFact`;
 
         var fact_id = $(element).attr("vote-id");
 
@@ -127,7 +136,7 @@ fjs.boardManager.prepareMainDashboard = function () {
             url: requestUrl,
             data: JSON.stringify(fact_id),
             success: function (data) {
-                debugger;
+                //debugger;
                 var id = "data-vote-rating-" + fact_id;
 
                 var updatedRating = parseInt(document.getElementById(id).innerHTML.trim().replace(/\s/g, '')) - 1;
@@ -142,7 +151,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     };
 
     login = function (e) {
-        debugger;
+        //debugger;
         var authHeader = `Authorization test:test`;
         var str1 = $(`#loginEmail`).val();
         var str2 = $(`#loginPassword`).val();
@@ -162,7 +171,7 @@ fjs.boardManager.prepareMainDashboard = function () {
     };
 
     register = function (e) {
-        debugger;
+        //debugger;
         var url = baseAPIURLssl;
         alert(url);
 
@@ -179,35 +188,30 @@ fjs.boardManager.prepareMainDashboard = function () {
 
         var success = true;
 
-        if (!terms)
-        {
+        if (!terms) {
             $(`#err_terms`).show();
             success = false;
         }
 
-        if (user == "")
-        {
+        if (user == "") {
             $(`#err_nickname`).show();
             success = false;
         }
 
-        if (mail == "")
-        {
+        if (mail == "") {
             $(`#err_email`).show();
 
             success = false;
         }
 
-        if (pswd1 == "" || pswd2 == "")
-        {
+        if (pswd1 == "" || pswd2 == "") {
 
             $(`#err_password`).show();
 
             success = false;
         }
 
-        if (pswd1 != pswd2)
-        {
+        if (pswd1 != pswd2) {
             $(`#err_password`).show();
             success = false;
         }
@@ -221,10 +225,10 @@ fjs.boardManager.prepareMainDashboard = function () {
 
 
         var _model = [];
-        _model = { email: str_mail, username: str_user, password:str_pswd };
+        _model = { email: str_mail, username: str_user, password: str_pswd };
 
         var jsonObj = JSON.stringify(_model);
-        
+
         $('#regemail').html(str_mail);
 
 
@@ -236,7 +240,7 @@ fjs.boardManager.prepareMainDashboard = function () {
             url: requestUrl,
             data: jsonObj,
             success: function (data) {
-                debugger;
+                //debugger;
                 setCookie("Registration", "1");
             },
             dataType: "json",
@@ -244,9 +248,18 @@ fjs.boardManager.prepareMainDashboard = function () {
         });
     };
 
+    clickOnTag = function (e) {
+        //debugger;
+        var tagName = $(this).attr("data-tag");
+        getTagAndRefreshDashBoardData(tagName);
+    };
+
     assignEventsToControls = function () {
         $("#loginSubmit").click(login);
         $("#registerSubmit").click(register);
+        $("#testtag").click(getTagAndRefreshDashBoardData);
+        $("a[data-tag]").click(clickOnTag);
+
         //$("#testbtnCreate").click(setCookie);
         //$("#testbtnCheck").click(checkCookie);
         //$("#by_rating_button").click(getAndRefreshDashBoardData);
@@ -281,36 +294,6 @@ fjs.boardManager.prepareMainDashboard = function () {
             iDislikeIt(this);
         });
 
-        // Active vote detection and mark on the screen `-` and `+`
-        var arr = $('*[data-vote-minus]');
-        for (index = 0; index < arr.length; ++index) {
-            var element = arr[index];
-
-            // TODO: Code review. Make single function for better performance.
-            var fact_id = $(element).attr("vote-id");
-            let cname = "ftfid_" + fact_id;
-
-            const previousVoteValue = getCookie(cname);
-
-            if (previousVoteValue === "0" || previousVoteValue === "1") {
-                if (previousVoteValue === "0") {
-                    //console.log(`Fact id ${fact_id} already Disliked.`);
-                    $(element).addClass("active");
-                    //return;
-                }
-                else
-                    if (previousVoteValue === "1") {
-                        $(element).removeClass("active");
-                        $(`#plus_${cname}`).addClass("active");
-                        //console.log(`Fact id ${fact_id} already Liked.`);
-                        //return;
-                    }
-
-            }
-
-            //console.log(arr[index]);
-        }
-
         //$(".vote_plus").click(function (e) {
         //    var vote_id = $(this).attr("vote-id");
 
@@ -340,6 +323,42 @@ fjs.boardManager.prepareMainDashboard = function () {
         //    $(".posting").toggleClass("active");
         //    $(".mb").toggleClass("deactive");
         //});
+
+        manageDashBoardVotes();
+    };
+
+    manageDashBoardVotes = function () {
+        // Active vote detection and mark on the screen `-` and `+`
+        var arr = $('*[data-vote-minus]');
+        for (index = 0; index < arr.length; ++index) {
+            //debugger;
+            var element = arr[index];
+
+            // TODO: Code review. Make single function for better performance.
+            var fact_id = $(element).attr("vote-id");
+            let cname = "ftfid_" + fact_id;
+
+            const previousVoteValue = getCookie(cname);
+
+            //debugger;
+            if (previousVoteValue === "0" || previousVoteValue === "1") {
+                if (previousVoteValue === "0") {
+                    //console.log(`Fact id ${fact_id} already Disliked.`);
+                    $(element).addClass("active");
+                    //return;
+                }
+                else
+                    if (previousVoteValue === "1") {
+                        $(element).removeClass("active");
+                        $(`#plus_${cname}`).addClass("active");
+                        //console.log(`Fact id ${fact_id} already Liked.`);
+                        //return;
+                    }
+
+            }
+
+            //console.log(arr[index]);
+        }
     };
 
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -356,7 +375,6 @@ fjs.boardManager.prepareMainDashboard = function () {
         return sign + rating.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     };
 
-
     prepareHashTags = function (hashTags) {
         var temp_str = ``;
 
@@ -365,7 +383,7 @@ fjs.boardManager.prepareMainDashboard = function () {
         temp_arr.forEach(item => {
             if (item.length > 0) {
                 temp_str = temp_str +
-                    `&nbsp;<a href="#" class="badge badge-primary">#${item.trim()}</a>`;
+                    `&nbsp;<a href="#" data-tag="${item.trim()}" class="badge badge-primary">#${item.trim()}</a>`;
             }
         });
         return temp_str;
@@ -374,10 +392,10 @@ fjs.boardManager.prepareMainDashboard = function () {
     getAndRefreshDashBoardData = function (e) {
         var dataOrder = $(this).attr("data-order-type");
 
-        var requestUrl = `<%= Consts.baseAPIURLssl %>/api/message/dashboard/${dataOrder}`;
-        alert(requestUrl);
+        var requestUrl = `${apiUrl}/api/message/dashboard/${dataOrder}`;
+        //alert(requestUrl);
 
-        debugger;
+        //debugger;
 
         $.get(requestUrl, function (data) {
             if ((data) && (data.length > 0)) {
@@ -446,7 +464,7 @@ fjs.boardManager.prepareMainDashboard = function () {
                 ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ''.toString()}
             </div>
             <div class='col-md-2 col-6   order-md-3 order-3 post-link'> 
-                <a href='https://${e.factLink}' target='_blank'>some url: ${e.factLink}</a> 
+                <a href='https://${e.factLink}' target='_blank'>${prepareUrl(e.factLink)}</a> 
             </div>
             <div class='col-md-2 col-4   order-md-4 order-2 text-right'>
                 <div class='row'>
@@ -477,8 +495,139 @@ fjs.boardManager.prepareMainDashboard = function () {
 `;
                     $("#content_container").html(content);
                 });
-                debugger;
-                assignEventsToControls();
+                //debugger;
+                manageDashBoardVotes();
+            }
+        });
+    };
+
+    prepareUrl = function (e) {
+        try {
+            //debugger;
+            var url = e;
+
+            url = url.replace("http://", "");
+            url = url.replace("https://", "");
+            var n = url.indexOf('/');
+            if (n > 0) {
+                url = url.remove(n);
+            }
+
+            return url;
+        } catch (ex) {
+            return e;
+        }
+    };
+
+    getTagAndRefreshDashBoardData = function (tagName) {
+        //debugger;
+        var dataOrder = $(this).attr("data-order-type");
+
+        var requestUrl = `${apiUrl}/api/search/tag/${tagName}`;
+        //var requestUrl = `${apiUrl}/api/search/tag/nasa`;
+        alert(requestUrl);
+
+
+        $.get(requestUrl, function (data) {
+            if ((data) && (data.length > 0)) {
+                var content = ``;
+                data.forEach(e => {
+
+                    // previous example
+                    //<div class='row table-post'>
+                    //            <div class='col-md-7 col-8 order-md-1 order-1'>
+                    //                ${(e.factTitle)}
+                    //                <br />
+                    //                ${((e.factHashTags !== null) && (e.factHashTags.length > 0))
+                    //                            ? prepareHashTags(e.factHashTags)
+                    //                            : ``}
+                    //            </div>
+                    //            <div class='col-md-1 col-6 order-md-2 order-4 post-time text-right'>
+                    //                ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ''.toString()}
+                    //            </div>
+                    //            <div class='col-md-2 col-6 order-md-3 order-3 post-link'>
+                    //                <a href='url'>
+                    //                    ${e.factLink}
+                    //                </a>
+                    //            </div>
+                    //            <div class='col-md-2 col-4 order-md-4 order-2 text-right'>
+                    //                <div class='row'>
+                    //                    <div class='col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right'>
+                    //                        <div class='  btn-group-toggle post_vote' data-toggle='buttons'>
+                    //                            <label class='btn btn-rate'>
+                    //                                <input type='radio' name='options' id='option1' autocomplete='off'>-
+                    //                            </label>
+                    //                            <label class='btn btn-rate  '>
+                    //                                <input type='radio' name='options' id='option2' autocomplete='off'>+
+                    //                            </label>
+                    //                        </div>
+                    //                    </div>
+                    //                    <div class='col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right'>
+                    //                        <div class='post_rating golden'>
+
+                    //                            ${((e.factRating) && (parseInt(e.factRating)) > 0)
+                    //                            ? `+` + e.factRating : e.factRating
+                    //                        }
+                    //                        <div class='golden-dot'></div>
+                    //                        </div>
+                    //                    </div>
+                    //                </div>
+                    //            </div>
+                    //</div>
+                    if (e.factRating === null) {
+                        e.factRating = 0;
+                    }
+
+                    var isBannedRating = e.factRating < 0;
+                    var isGoldenRating = e.factRating >= 900;
+
+
+                    content = content + `
+        <div class='row table-post'>
+            <div class='col-md-7 col-8  order-md-1 order-1'>
+                 ${(e.factTitle)}
+                <br />
+                ${e.factHashTags !== null && e.factHashTags.length > 0
+                            ? prepareHashTags(e.factHashTags)
+                            : ``}
+            </div >
+            <div class='col-md-1 col-6   order-md-2 order-4 post-time text-right'>
+                ${((e.factCreateDate) && (e.factCreateDate.length >= 10)) ? prepareDisplayDate(e.factCreateDate) : ''.toString()}
+            </div>
+            <div class='col-md-2 col-6   order-md-3 order-3 post-link'> 
+                <a href='https://${e.factLink}' target='_blank'>${prepareUrl(e.factLink)}</a> 
+            </div>
+            <div class='col-md-2 col-4   order-md-4 order-2 text-right'>
+                <div class='row'>
+                    <div class='col-lg-4 col-md-12 col-12 order-lg-1 order-md-2 order-2 text-right'>
+                        <div class='btn-group-toggle post_vote' data-toggle='buttons'>
+                            <label class='btn btn-rate' data-vote-minus vote-id='${e.factId}'>
+                                <input type='radio' name='options' id='option1' autocomplete='off'>-
+                            </label>
+                            <label id='plus_ftfid_${e.factId}' class='btn btn-rate' data-vote-plus vote-id='${e.factId}'>
+                                <input type='radio' name='options' id='option2' autocomplete='off'>+
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <div class='col-lg-8 col-md-12 col order-lg-2 order-md-1 order-1 text-right'>
+                        <div class='post_rating ${isGoldenRating ? 'golden' : ''} ${(isBannedRating) ? 'banned' : ''}' data-fact-rating>
+                            <span id="data-vote-rating-${e.factId}">
+                                 ${ prepareRating(e.factRating)}
+                            </span>
+                            ${(isGoldenRating) ? `<div class='golden-dot'></div>` : ``}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+`;
+                    $("#content_container").html(content);
+                });
+                //debugger;
+                manageDashBoardVotes();
             }
         });
     };

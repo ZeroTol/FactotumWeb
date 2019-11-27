@@ -4,8 +4,8 @@ namespace FactotumWeb
 {
     public static class Consts
     {
-        public const string baseAPIURL = "http://localhost:6002";
-        public const string baseAPIURLssl = "https://localhost:6001";
+        public const string baseAPIURL = "https://factotumwebapi.azurewebsites.net";
+        public const string baseAPIURLssl = "https://factotumwebapi.azurewebsites.net";
         public const string baseAPIURLadditionalssl = "https://localhost:44347";
 
         public const string baseURL = "http://localhost:5001";
