@@ -503,14 +503,14 @@ fjs.boardManager.prepareMainDashboard = function () {
 
     prepareUrl = function (e) {
         try {
-            //debugger;
+            debugger;
             var url = e;
 
             url = url.replace("http://", "");
             url = url.replace("https://", "");
             var n = url.indexOf('/');
             if (n > 0) {
-                url = url.remove(n);
+                url = url.substr(0, n);
             }
 
             return url;
